@@ -1,18 +1,184 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:padding="10dp"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/bakgroundColor">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/app_name"
+        android:textSize="@dimen/title_font"
+        android:textAlignment="center"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/lblPlaying"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/playing"
+        android:textSize="@dimen/normal_font"
+        android:layout_marginTop="-10dp"
+        android:paddingStart="25dp"
+        android:paddingEnd="0dp"/>
+
+    <TextView
+        android:id="@+id/lblHiddenWord"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="_ _ _ _ _"
+        android:textSize="@dimen/subtitle_font"
+        android:textAlignment="center"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="25dp"
+        android:paddingEnd="0dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/posicion"
+            android:textSize="@dimen/normal_font"
+            android:textAlignment="center"/>
+
+        <Spinner
+            android:id="@+id/positionSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="25dp"
+        android:paddingEnd="25dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/letra"
+            android:textSize="@dimen/normal_font"
+            android:textAlignment="center"
+            android:paddingStart="35dp"
+            android:paddingEnd="0dp"/>
+
+        <Spinner
+            android:id="@+id/charSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"/>
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btPlay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/play"
+        android:textSize="@dimen/small_font"
+        android:background="@drawable/start_button_selector"
+        android:layout_marginVertical="10dp"
+        android:textColor="@color/bakgroundColor"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginVertical="5dp">
+
+        <TextView
+            android:id="@+id/lblPoints"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/puntos"
+            android:textSize="@dimen/normal_font"
+            android:textAlignment="center"
+            android:paddingStart="25dp"
+            android:paddingEnd="25dp"/>
+
+        <TextView
+            android:id="@+id/lblLives"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/vidas"
+            android:textSize="@dimen/normal_font"
+            android:textAlignment="center"
+            android:paddingStart="25dp"
+            android:paddingEnd="25dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginVertical="10dp">
+
+        <Button
+            android:id="@+id/btPlayer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/player"
+            android:textSize="@dimen/small_font"
+            android:background="@drawable/outline_button_selector"
+            android:textColor="@drawable/outline_button_selector"
+            android:layout_weight="1"
+            android:layout_marginEnd="10dp"/>
+
+        <Button
+            android:id="@+id/btOptions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/options"
+            android:textSize="@dimen/small_font"
+            android:textColor="@drawable/outline_button_selector"
+            android:background="@drawable/outline_button_selector"
+            android:layout_weight="0.8"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginVertical="10dp">
+
+        <Button
+            android:id="@+id/btStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/start"
+            android:textSize="@dimen/small_font"
+            android:background="@drawable/start_button_selector"
+            android:layout_weight="1"
+            android:layout_marginEnd="10dp"
+            android:textColor="@color/bakgroundColor"/>
+
+        <Button
+            android:id="@+id/btEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/end"
+            android:textSize="@dimen/small_font"
+            android:background="@drawable/outline_end_button_selector"
+            android:textColor="@drawable/outline_end_button_selector"
+            android:layout_weight="0.6"
+            android:clickable="true"/>
+
+    </LinearLayout>
+
+</LinearLayout>

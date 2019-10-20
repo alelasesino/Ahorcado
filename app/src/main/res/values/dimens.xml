@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="title_font">40sp</dimen>
+    <dimen name="subtitle_font">35sp</dimen>
+    <dimen name="normal_font">30sp</dimen>
+    <dimen name="small_font">25sp</dimen>
+    <dimen name="extra_small_font">20sp</dimen>
+    <dimen name="extra_extra_small_font">18sp</dimen>
+</resources>

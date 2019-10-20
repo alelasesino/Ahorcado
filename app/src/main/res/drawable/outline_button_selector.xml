@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/outline_button_wave_click" android:color="@color/colorPrimaryDarkFont" android:state_enabled="true"/>
+    <item android:drawable="@drawable/outline_button_disabled" android:color="@color/colorDisabled" android:state_enabled="false"/>
+
+</selector>

@@ -1,3 +1,25 @@
 <resources>
-    <string name="app_name">Ahorcado</string>
+    <string name="app_name">AHORCADO</string>
+    <string name="posicion">Posición:</string>
+    <string name="letra">Letra:</string>
+    <string name="puntos">Puntos: %d</string>
+    <string name="vidas">N.º Vidas: %d</string>
+    <string name="vidas_static">N.º Vidas:</string>
+    <string name="play">¡Jugar!</string>
+    <string name="start">Iniciar</string>
+    <string name="end">Finalizar</string>
+    <string name="comodin">Permitir comodín * en posición</string>
+    <string name="easy">Fácil</string>
+    <string name="normal">Medio</string>
+    <string name="hard">Avanzado</string>
+    <string name="level">Dificultad</string>
+    <string name="options_title">OPCIONES DE JUEGO</string>
+    <string name="back">Volver</string>
+    <string name="user_title">REGISTRO DE USUARIO</string>
+    <string name="name">Nombre</string>
+    <string name="user_subtitle">Puntuacion últimos jugadores</string>
+    <string name="options">Opciones</string>
+    <string name="player">Jugador</string>
+    <string name="playing">Jugando %s</string>
+    <string name="default_player_name">Player 1</string>
 </resources>

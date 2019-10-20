@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".OptionsActivity"
+    android:padding="30dp"
+    android:orientation="vertical"
+    android:background="@color/bakgroundColor">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/options_title"
+        android:textSize="@dimen/normal_font"
+        android:gravity="center"
+        android:layout_marginVertical="15dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/level"
+        android:textSize="@dimen/small_font"
+        android:paddingHorizontal="5dp"/>
+
+    <RadioGroup
+        android:id="@+id/groupDificultad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="10dp">
+
+        <RadioButton
+            android:id="@+id/radioEasy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/easy"
+            android:textSize="@dimen/extra_small_font"
+            android:layout_weight="1"/>
+
+        <RadioButton
+            android:id="@+id/radioNormal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/normal"
+            android:textSize="@dimen/extra_small_font"
+            android:layout_weight="1"/>
+
+        <RadioButton
+            android:id="@+id/radioHard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hard"
+            android:textSize="@dimen/extra_small_font"
+            android:layout_weight="1"/>
+
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/vidas_static"
+            android:textSize="@dimen/small_font"
+            android:gravity="center"
+            android:paddingHorizontal="5dp"/>
+
+        <EditText
+            android:id="@+id/txtLives"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:textSize="@dimen/small_font"
+            android:layout_marginHorizontal="5dp"/>
+
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/checkboxComodin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/comodin"
+        android:textSize="@dimen/extra_small_font"
+        android:layout_marginVertical="15dp"/>
+
+    <Button
+        android:id="@+id/btBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/back"
+        android:textSize="@dimen/small_font"
+        android:background="@drawable/start_button_selector"
+        android:textColor="@color/bakgroundColor"/>
+
+</LinearLayout>
