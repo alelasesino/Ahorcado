@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -28,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private String playerName;
     private boolean waitStartGame = true;
 
-    ArrayList<String> data = new ArrayList<>();
-    ArrayAdapter<String> adapter;
+    private ArrayList<String> charsArray = new ArrayList<>(), positionsArray = new ArrayList<>();
+    private ArrayAdapter<String> charsAdapter, positionsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,15 +69,28 @@ public class MainActivity extends AppCompatActivity {
         btPlayer.setOnClickListener(this::onClickPlayer);
         btOptions.setOnClickListener(this::onClickOptions);
 
+        positionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                updateCharSpinner();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {}
+
+        });
+
         lblPlaying.setText(getString(R.string.playing, playerName));
         lblPoints.setText(getString(R.string.puntos, 0));
         lblLives.setText(getString(R.string.vidas, 0));
 
-        String[] l = new String[]{"A", "B", "C"};
-        data.addAll(Arrays.asList(l));
+        positionsAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, positionsArray);
+        charsAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, charsArray);
 
-        adapter = new ArrayAdapter<>(this, R.layout.spinner_item, data);
-        charSpinner.setAdapter(adapter);
+        positionSpinner.setAdapter(positionsAdapter);
+        charSpinner.setAdapter(charsAdapter);
 
     }
 
@@ -86,13 +100,10 @@ public class MainActivity extends AppCompatActivity {
      */
     private void onClickPlay(View v){
 
-        String[] r = new String[]{"H", "R", "J"};
-        data.clear();
-        data.addAll(Arrays.asList(r));
+        hangGame.insertChar(charSpinner.getSelectedItem().toString().charAt(0), getPositionSelected());
 
-        //adapter.clear();
-        //charSpinner.setAdapter(new ArrayAdapter<String>(this, R.layout.spinner_item, new String[]{"R", "C", "W"}));
-        adapter.notifyDataSetChanged();
+        updateDataGUI();
+        updateCharSpinner();
 
     }
 
@@ -124,6 +135,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Arranca la activity OptionsActivity y pasa los opciones actuales
+     * @param v
+     */
     private void onClickOptions(View v){
 
         Intent intent = new Intent(this, OptionsActivity.class);
@@ -155,8 +170,36 @@ public class MainActivity extends AppCompatActivity {
     private void updateDataGUI(){
 
         lblHiddenWord.setText(hangGame.getHiddenWord());
+
+        updatePositionSpinner();
+
         lblPoints.setText(getString(R.string.puntos, hangGame.getPoints()));
         lblLives.setText(getString(R.string.vidas, hangGame.getCurrentLives()));
+
+    }
+
+    private void updatePositionSpinner(){
+
+        positionsArray.clear();
+        positionsArray.addAll(Arrays.asList(hangGame.getAvailablePositions()));
+        positionsAdapter.notifyDataSetChanged();
+
+        int itemSelected = positionSpinner.getSelectedItemPosition();
+        positionSpinner.setSelection(itemSelected == -1 ? 0 : itemSelected);
+
+    }
+
+    private void updateCharSpinner(){
+
+        String letras = hangGame.getCharsPosition(getPositionSelected());
+
+        String[] chars = letras.split("(?!^)"); //DIVIDE LA CADENA POR CARACTERES
+
+        charsArray.clear();
+        charsArray.addAll(Arrays.asList(chars));
+        charsAdapter.notifyDataSetChanged();
+
+        charSpinner.setSelection(0);
 
     }
 
@@ -170,17 +213,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        switch (requestCode){
+        if(data != null)
+            switch (requestCode){
 
-            case OPTIONS_ACTIVITY:
-                receivedDataOptions(data);
-                break;
+                case OPTIONS_ACTIVITY:
+                    receivedDataOptions(data);
+                    break;
 
-            case USER_ACTIVITY:
-                Log.d("PRUEBA", "USER");
-                break;
+                case USER_ACTIVITY:
+                    Log.d("PRUEBA", "USER");
+                    break;
 
-        }
+            }
 
     }
 
@@ -211,6 +255,18 @@ public class MainActivity extends AppCompatActivity {
                 hangGame.setComodin(bundle.getBoolean("COMODIN"));
 
             }
+
+    }
+
+    /**
+     * Posicion seleccionada en el spinner de posicion
+     * @return Posicion seleccionada
+     */
+    private int getPositionSelected(){
+
+        String position = positionSpinner.getSelectedItem().toString();
+
+        return position.equals("*") ? -1 : (Integer.parseInt(position)-1);
 
     }
 

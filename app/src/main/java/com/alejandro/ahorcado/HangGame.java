@@ -1,12 +1,18 @@
 package com.alejandro.ahorcado;
 
+import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.function.Predicate;
+
 public class HangGame {
     //String = "abcdefghijklmnñopqrstuvwxyz"
     //String={"", "", "", "", ""}; CADA POSICION DEL ARRAY ES UN CARACTER DE LA PALABRA
     //PARA CADA CARACTER ALMACENO UN CADENA CON TODAS LOS CARACTERES QUE YA SE INSERTARON
     //NO MOSTRAR LAS PALABRAS QUE YA ESTEN INSERTARDAS
     private String[] charsPosition;
-
+    private ArrayList<String> availablePositions;
+    //TODO CAMBIAR STRING BUILDER POR ARRAY DE CHARS Y CHAR POSITION Y AVAILABLE POSITION POR UN HASHMAP
     private StringBuilder word, hiddenWord;
     private int lives, currentLives, points;
     private boolean comodin;
@@ -15,6 +21,18 @@ public class HangGame {
 
         lives = DifficultyEnum.NORMAL.getLives();
         currentLives = lives;
+
+    }
+
+    private void initAvailablePositions(){
+
+        availablePositions = new ArrayList<>();
+
+        if(comodin)
+            availablePositions.add("*");
+
+        for(int i = 1; i<=word.length(); i++)
+            availablePositions.add(String.valueOf(i));
 
     }
 
@@ -42,7 +60,9 @@ public class HangGame {
 
     public void insertChar(char c, int pos){
 
-        int initPos = pos-1;
+        Log.d("PRUEBA POS: ", ""+pos);
+
+        int initPos = pos;
 
         if(pos == -1){
             initPos = 0;
@@ -51,13 +71,17 @@ public class HangGame {
 
         boolean existChar = false;
 
-        int j = 0;
+        int j = initPos*2 >= hiddenWord.length() ? hiddenWord.length()-1 : initPos*2;
 
-        for(int i = initPos; i<pos; i++){
+        for(int i = initPos; i<= pos; i++){
+
+            charsPosition[i] = charsPosition[i].replace(String.valueOf(Character.toLowerCase(c)), "");
 
             if(Character.toLowerCase(word.charAt(i)) == Character.toLowerCase(c)) {
 
-                charsPosition[i] = charsPosition[i].replace(word.charAt(i), Character.MIN_VALUE);
+                final int posDelete = i+1;
+                availablePositions.removeIf((s) -> s.equals(String.valueOf(posDelete)));
+
                 hiddenWord.setCharAt(j, word.charAt(i));
                 existChar = true;
 
@@ -75,15 +99,14 @@ public class HangGame {
     }
 
     private void increasePoints(boolean extraPoints){
-
         points += extraPoints ? 5 : 1;
-
     }
 
     public void setHiddenWord(String word){
         this.word = new StringBuilder(word);
 
         initCharsPosition();
+        initAvailablePositions();
         initHiddenWord();
 
     }
@@ -126,8 +149,19 @@ public class HangGame {
 
     }
 
+    public String[] getAvailablePositions(){
+
+        String[] positions = new String[availablePositions.size()];
+
+        return availablePositions.toArray(positions);
+    }
+
     public String getCharsPosition(int position) {
-        return charsPosition[position];
+
+        if(position != -1)
+            return charsPosition[position].toUpperCase();
+        else //TODO MERGE TODAS LAS CADENAS
+            return null;
     }
 
 }
