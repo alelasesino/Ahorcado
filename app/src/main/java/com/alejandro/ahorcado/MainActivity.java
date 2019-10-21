@@ -19,12 +19,14 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int OPTIONS_ACTIVITY = 1, USER_ACTIVITY = 2;
 
+    private HangGame hangGame = new HangGame();
+
     private TextView lblPlaying, lblHiddenWord, lblPoints, lblLives;
     private Spinner positionSpinner, charSpinner;
     private Button btPlay, btStart, btEnd, btPlayer, btOptions;
 
+    private String playerName;
     private boolean waitStartGame = true;
-    private HangGame hangGame = new HangGame();
 
     ArrayList<String> data = new ArrayList<>();
     ArrayAdapter<String> adapter;
@@ -34,13 +36,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        hangGame.setLives(DifficultyEnum.NORMAL.getLives());
+        playerName = getString(R.string.default_player_name);
 
         initializeComponents();
         changeState();
 
     }
 
+    /**
+     * Inicializa los componentes XML
+     */
     private void initializeComponents(){
 
         lblPlaying = findViewById(R.id.lblPlaying);
@@ -63,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         btPlayer.setOnClickListener(this::onClickPlayer);
         btOptions.setOnClickListener(this::onClickOptions);
 
-        lblPlaying.setText(getString(R.string.playing, getString(R.string.default_player_name)));
+        lblPlaying.setText(getString(R.string.playing, playerName));
         lblPoints.setText(getString(R.string.puntos, 0));
         lblLives.setText(getString(R.string.vidas, 0));
 
@@ -75,6 +80,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Inserta el caracter en el juego
+     * @param v
+     */
     private void onClickPlay(View v){
 
         String[] r = new String[]{"H", "R", "J"};
@@ -87,6 +96,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Inicia la palabra al juego y actualiza la interfaz
+     * @param v
+     */
     private void onClickStart(View v){
 
         hangGame.setHiddenWord("Alejandro");
@@ -115,11 +128,14 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, OptionsActivity.class);
         intent.putExtra("LEVEL", hangGame.getCurrentLives());
-        intent.putExtra("COMODIN", true);
+        intent.putExtra("COMODIN", hangGame.hasComodin());
         startActivityForResult(intent, OPTIONS_ACTIVITY);
 
     }
 
+    /**
+     * Cambia el estado de la aplicacion
+     */
     private void changeState(){
 
         positionSpinner.setEnabled(!waitStartGame);
@@ -133,6 +149,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Actualiza los datos de la interfaz con los datos del juego
+     */
     private void updateDataGUI(){
 
         lblHiddenWord.setText(hangGame.getHiddenWord());
@@ -141,6 +160,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Recibe el resultado de la activity que se cerro
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -161,15 +186,29 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Recibe los datos de la OptionsActivity y actualiza los datos de HangGame
-     * @param data Datos recibidos
+     * @param intent Intent con los datos recibidos
      */
-    private void receivedDataOptions(Intent data){
+    private void receivedDataOptions(Intent intent){
+
+        Bundle data = intent.getExtras();
+
+        if(data !=null) {
+
+            hangGame.setLives(data.getInt("LEVEL"));
+            hangGame.setComodin(data.getBoolean("COMODIN"));
+
+        }
+
+    }
+
+    private void receivedDataUser(Intent data){
 
         if(data !=null)
             if(data.getExtras() != null){
 
                 Bundle bundle = data.getExtras();
                 hangGame.setLives(bundle.getInt("LEVEL"));
+                hangGame.setComodin(bundle.getBoolean("COMODIN"));
 
             }
 

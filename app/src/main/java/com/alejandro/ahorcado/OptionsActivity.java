@@ -64,7 +64,8 @@ public class OptionsActivity extends AppCompatActivity implements View.OnClickLi
 
         btBack.setOnClickListener(this);
 
-        receivedLives = getIntent().getExtras().getInt("LEVEL");
+        receivedDataOptions();
+
         changeRadioGroup(receivedLives);
         txtLives.setText(String.valueOf(receivedLives));
 
@@ -126,6 +127,19 @@ public class OptionsActivity extends AppCompatActivity implements View.OnClickLi
         strLives = strLives.equals("") ? String.valueOf(receivedLives) : strLives;
 
         return Integer.parseInt(strLives);
+
+    }
+
+    private void receivedDataOptions(){
+
+        Bundle data = getIntent().getExtras();
+
+        if(data != null){
+
+            receivedLives = data.getInt("LEVEL");
+            checkboxComodin.setChecked(data.getBoolean("COMODIN"));
+
+        }
 
     }
 

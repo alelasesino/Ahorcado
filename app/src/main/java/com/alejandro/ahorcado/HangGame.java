@@ -9,6 +9,14 @@ public class HangGame {
 
     private StringBuilder word, hiddenWord;
     private int lives, currentLives, points;
+    private boolean comodin;
+
+    public HangGame(){
+
+        lives = DifficultyEnum.NORMAL.getLives();
+        currentLives = lives;
+
+    }
 
     private void initCharsPosition(){
 
@@ -99,6 +107,14 @@ public class HangGame {
 
     public int getPoints(){
         return points;
+    }
+
+    public void setComodin(boolean comodin){
+        this.comodin = comodin;
+    }
+
+    public boolean hasComodin(){
+        return comodin;
     }
 
     public boolean endGame(){
