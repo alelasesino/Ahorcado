@@ -1,18 +1,15 @@
 package com.alejandro.ahorcado;
 
-import android.util.Log;
-
 import java.util.ArrayList;
-import java.util.function.Predicate;
 
 public class HangGame {
     //String = "abcdefghijklmnñopqrstuvwxyz"
     //String={"", "", "", "", ""}; CADA POSICION DEL ARRAY ES UN CARACTER DE LA PALABRA
     //PARA CADA CARACTER ALMACENO UN CADENA CON TODAS LOS CARACTERES QUE YA SE INSERTARON
     //NO MOSTRAR LAS PALABRAS QUE YA ESTEN INSERTARDAS
+    private String playerName; //TODO CAMBIAR A UN OBJECTO PLAYER
+
     private String[] charsPosition;
-    private ArrayList<String> availablePositions;
-    //TODO CAMBIAR STRING BUILDER POR ARRAY DE CHARS Y CHAR POSITION Y AVAILABLE POSITION POR UN HASHMAP
     private StringBuilder word, hiddenWord;
     private int lives, currentLives, points;
     private boolean comodin;
@@ -21,18 +18,6 @@ public class HangGame {
 
         lives = DifficultyEnum.NORMAL.getLives();
         currentLives = lives;
-
-    }
-
-    private void initAvailablePositions(){
-
-        availablePositions = new ArrayList<>();
-
-        if(comodin)
-            availablePositions.add("*");
-
-        for(int i = 1; i<=word.length(); i++)
-            availablePositions.add(String.valueOf(i));
 
     }
 
@@ -51,50 +36,45 @@ public class HangGame {
 
         hiddenWord = new StringBuilder();
 
-        for(int i = 0; i<word.length()-1; i++)
-            hiddenWord.append("_ ");
-
-        hiddenWord.append("_");
+        for(int i = 0; i<word.length(); i++)
+            hiddenWord.append("_");
 
     }
 
-    public void insertChar(char c, int pos){
+    public void insertChar(char c, int finalPos){
 
-        Log.d("PRUEBA POS: ", ""+pos);
+        c = Character.toLowerCase(c);
 
-        int initPos = pos;
+        int initPos = finalPos;
 
-        if(pos == -1){
+        if(finalPos == -1){
             initPos = 0;
-            pos = word.length();
+            finalPos = word.length();
         }
 
+        int i = initPos;
         boolean existChar = false;
 
-        int j = initPos*2 >= hiddenWord.length() ? hiddenWord.length()-1 : initPos*2;
+        do{
 
-        for(int i = initPos; i<= pos; i++){
+            charsPosition[i] = charsPosition[i].replace(String.valueOf(c), "");
 
-            charsPosition[i] = charsPosition[i].replace(String.valueOf(Character.toLowerCase(c)), "");
+            if(Character.toLowerCase(word.charAt(i)) == c) {
 
-            if(Character.toLowerCase(word.charAt(i)) == Character.toLowerCase(c)) {
-
-                final int posDelete = i+1;
-                availablePositions.removeIf((s) -> s.equals(String.valueOf(posDelete)));
-
-                hiddenWord.setCharAt(j, word.charAt(i));
+                charsPosition[i] = "";
+                hiddenWord.setCharAt(i, word.charAt(i));
                 existChar = true;
 
             }
 
-            j+=2;
+            i++;
 
-        }
+        } while(i<finalPos);
 
         if(!existChar)
             currentLives -= 1;
         else
-            increasePoints(initPos == pos-1);
+            increasePoints(initPos == finalPos);
 
     }
 
@@ -106,13 +86,19 @@ public class HangGame {
         this.word = new StringBuilder(word);
 
         initCharsPosition();
-        initAvailablePositions();
         initHiddenWord();
 
     }
 
     public String getHiddenWord(){
-        return hiddenWord.toString();
+
+        StringBuilder result = new StringBuilder();
+
+        for(int i = 0; i<hiddenWord.length(); i++)
+            result.append(hiddenWord.charAt(i)).append(" ");
+
+        return result.toString().trim();
+
     }
 
     public void setLives(int lives) {
@@ -140,28 +126,57 @@ public class HangGame {
         return comodin;
     }
 
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
+
     public boolean endGame(){
 
         word.trimToSize();
         hiddenWord.trimToSize();
 
-        return  word.toString().toLowerCase().equals(hiddenWord.toString().toLowerCase());
+        return  word.toString().toLowerCase().equals(hiddenWord.toString().toLowerCase()) || lives <= 0;
 
     }
 
     public String[] getAvailablePositions(){
 
-        String[] positions = new String[availablePositions.size()];
+        ArrayList<String> positions = new ArrayList<>();
 
-        return availablePositions.toArray(positions);
+        if(comodin)
+            positions.add("*");
+
+        for(int i = 0; i<charsPosition.length; i++)
+            if(!charsPosition[i].equals(""))
+                positions.add(String.valueOf(i+1));
+
+        return positions.toArray(new String[0]);
+
     }
 
     public String getCharsPosition(int position) {
 
         if(position != -1)
             return charsPosition[position].toUpperCase();
-        else //TODO MERGE TODAS LAS CADENAS
-            return null;
+        else
+            return mergeString(charsPosition).toUpperCase();
+
+    }
+
+    private String mergeString(String... strings) {
+
+        String result = "";
+
+        for(String s : strings)
+            result += s.replace(result, "");
+
+        return result;
+
+
     }
 
 }

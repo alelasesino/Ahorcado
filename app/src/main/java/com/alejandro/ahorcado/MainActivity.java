@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
     private Spinner positionSpinner, charSpinner;
     private Button btPlay, btStart, btEnd, btPlayer, btOptions;
 
-    private String playerName;
     private boolean waitStartGame = true;
 
     private ArrayList<String> charsArray = new ArrayList<>(), positionsArray = new ArrayList<>();
@@ -37,9 +36,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        playerName = getString(R.string.default_player_name);
-
         initializeComponents();
+        initializeHangGame();
         changeState();
 
     }
@@ -82,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-        lblPlaying.setText(getString(R.string.playing, playerName));
+        lblPlaying.setText(getString(R.string.playing, hangGame.getPlayerName()));
         lblPoints.setText(getString(R.string.puntos, 0));
         lblLives.setText(getString(R.string.vidas, 0));
 
@@ -91,6 +89,12 @@ public class MainActivity extends AppCompatActivity {
 
         positionSpinner.setAdapter(positionsAdapter);
         charSpinner.setAdapter(charsAdapter);
+
+    }
+
+    private void initializeHangGame(){
+
+
 
     }
 
@@ -185,13 +189,20 @@ public class MainActivity extends AppCompatActivity {
         positionsAdapter.notifyDataSetChanged();
 
         int itemSelected = positionSpinner.getSelectedItemPosition();
-        positionSpinner.setSelection(itemSelected == -1 ? 0 : itemSelected);
+
+        if(itemSelected == -1) //NINGUN ITEM SELECCIONADO
+            itemSelected = 0;
+        else if(positionsAdapter.getCount() == itemSelected) //SELECCIONADO ULTIMO ITEM
+            itemSelected -= 1;
+
+        positionSpinner.setSelection(itemSelected);
 
     }
 
     private void updateCharSpinner(){
 
         String letras = hangGame.getCharsPosition(getPositionSelected());
+
 
         String[] chars = letras.split("(?!^)"); //DIVIDE LA CADENA POR CARACTERES
 
