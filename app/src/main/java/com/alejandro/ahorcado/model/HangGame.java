@@ -1,4 +1,7 @@
-package com.alejandro.ahorcado;
+package com.alejandro.ahorcado.model;
+
+import com.alejandro.ahorcado.utils.DifficultyEnum;
+import com.alejandro.ahorcado.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -8,12 +11,13 @@ public class HangGame {
     //PARA CADA CARACTER ALMACENO UN CADENA CON TODAS LOS CARACTERES QUE YA SE INSERTARON
     //NO MOSTRAR LAS PALABRAS QUE YA ESTEN INSERTARDAS
     public static String[] words;
+    private final int EXTRA_POINTS = 5;
 
-    private String playerName; //TODO CAMBIAR A UN OBJECTO PLAYER
+    private Player player; //TODO CAMBIAR A UN OBJECTO PLAYER
 
     private String[] charsPosition;
     private StringBuilder word, hiddenWord;
-    private int lives, currentLives, points;
+    private int lives, currentLives;
     private boolean comodin;
 
     public HangGame(){
@@ -91,7 +95,7 @@ public class HangGame {
      * @param extraPoints Puntos extras
      */
     private void increasePoints(boolean extraPoints){
-        points += extraPoints ? 5 : 1;
+        player.setPoints(player.getPoints() + (extraPoints ? EXTRA_POINTS : 1));
     }
 
     private void setHiddenWord(String word){
@@ -104,6 +108,15 @@ public class HangGame {
 
         initCharsPosition();
         initHiddenWord();
+
+        resetGame();
+
+    }
+
+    private void resetGame(){
+
+        player.setPoints(0);
+        currentLives = lives;
 
     }
 
@@ -134,7 +147,6 @@ public class HangGame {
 
     public void setLives(int lives) {
         this.lives = lives;
-        this.currentLives = lives;
     }
 
     public int getLives() {
@@ -145,10 +157,6 @@ public class HangGame {
         return currentLives;
     }
 
-    public int getPoints(){
-        return points;
-    }
-
     public void setComodin(boolean comodin){
         this.comodin = comodin;
     }
@@ -157,12 +165,16 @@ public class HangGame {
         return comodin;
     }
 
-    public String getPlayerName() {
-        return playerName;
+    public Player getPlayer() {
+        return player;
     }
 
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public String getWord(){
+        return word.toString();
     }
 
     /**
@@ -174,7 +186,7 @@ public class HangGame {
         word.trimToSize();
         hiddenWord.trimToSize();
 
-        return  word.toString().toLowerCase().equals(hiddenWord.toString().toLowerCase()) || lives <= 0;
+        return  word.toString().toLowerCase().equals(hiddenWord.toString().toLowerCase()) || currentLives <= 0;
 
     }
 

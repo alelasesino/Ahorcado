@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".controller.MainActivity"
     android:padding="10dp"
     android:orientation="vertical"
     android:gravity="center"
@@ -31,7 +31,6 @@
         android:id="@+id/lblHiddenWord"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="_ _ _ _ _"
         android:textSize="@dimen/subtitle_font"
         android:textAlignment="center"/>
 

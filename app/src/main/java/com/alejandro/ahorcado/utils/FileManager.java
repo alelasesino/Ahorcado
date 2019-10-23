@@ -1,13 +1,13 @@
-package com.alejandro.ahorcado;
+package com.alejandro.ahorcado.utils;
 
 import android.content.Context;
+
+import com.alejandro.ahorcado.model.HangGame;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class FileManager {
 

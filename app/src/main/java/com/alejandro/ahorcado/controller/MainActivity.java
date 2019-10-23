@@ -1,21 +1,27 @@
-package com.alejandro.ahorcado;
+package com.alejandro.ahorcado.controller;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.alejandro.ahorcado.R;
+import com.alejandro.ahorcado.model.HangGame;
+import com.alejandro.ahorcado.model.Player;
+import com.alejandro.ahorcado.utils.FileManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -81,10 +87,10 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-       //lblPlaying.setText(getString(R.string.playing, hangGame.getPlayerName()));
-        /*lblPoints.setText(getString(R.string.puntos, 0));
-        lblLives.setText(getString(R.string.vidas, 0));*/
-        updateHangGameDataGUI();
+        lblPlaying.setText(getString(R.string.playing, ""));
+        lblPoints.setText(getString(R.string.puntos, 0));
+        lblLives.setText(getString(R.string.vidas, 0));
+        //updateHangGameDataGUI();
 
         positionsAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, positionsArray);
         charsAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, charsArray);
@@ -106,6 +112,8 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+        hangGame.setPlayer(new Player(this));
+
     }
 
     private void readOptionsFile() throws  IOException{
@@ -114,18 +122,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void writeOptionsFile(){
-        try{
 
-            if(hangGame == null)
-                hangGame = new HangGame();
+        if(hangGame == null)
+            hangGame = new HangGame();
 
-            FileManager.writeHangGameOptions(this, hangGame);
+        new Thread(() -> {
 
-        }catch (IOException e){}
+            try{
+
+                FileManager.writeHangGameOptions(this, hangGame);
+
+            }catch (IOException e){}
+
+        }).start();
+
     }
 
     /**
-     * Inserta el caracter en el juego
+     * Inserta el caracter en el juego y comprueba si acabo la partida
      * @param v
      */
     private void onClickPlay(View v){
@@ -133,7 +147,39 @@ public class MainActivity extends AppCompatActivity {
         hangGame.insertChar(charSpinner.getSelectedItem().toString().charAt(0), getPositionSelected());
 
         updateDataGUI();
-        updateCharSpinner();
+
+        checkEndGame();
+
+    }
+
+    /**
+     * Comprueba si termino la partida por limite de vidas o por acertar la palabra
+     */
+    private void checkEndGame(){
+
+        if(hangGame.endGame()){ //SI TERMINO LA PARTIDA POR VIDAS O PALABRA ACERTADA
+
+            finishGame();
+
+            Player player = hangGame.getPlayer();
+
+            if(hangGame.getCurrentLives() > 0){ //SI NO TERMINO POR LIMITE DE VIDAS
+
+                Toast.makeText(this, getString(R.string.winner_player, player.getName(), player.getPoints()), Toast.LENGTH_LONG).show();
+
+                player.setDate(new Date());
+
+            } else { //TERMINO POR LIMITE DE VIDAS
+
+                Toast.makeText(this, getString(R.string.loser_player, player.getName(), hangGame.getWord(), player.getPoints()), Toast.LENGTH_LONG).show();
+
+            }
+
+        } else {
+
+            updateCharSpinner();
+
+        }
 
     }
 
@@ -143,15 +189,23 @@ public class MainActivity extends AppCompatActivity {
      */
     private void onClickStart(View v){
 
-        initHangGameWords();
+        initHangGameWords(); //ESTABLECE LAS PALABRAS DISPONIBLES EN EL JUEGO
+
         hangGame.startGame();
 
         waitStartGame = false;
+
         changeState();
+
         updateDataGUI();
+        updateCharSpinner();
 
     }
 
+    /**
+     * Inicializa el array con todas las palabras del archivo palabras, en caso de
+     * que el archivo no existiese lo crea
+     */
     private void initHangGameWords(){
 
         try{
@@ -170,11 +224,18 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Carga el array de palabras con todas las palabras del archivo
+     * @throws IOException Archivo no existe
+     */
     private void readWordsFile() throws  IOException{
         if(HangGame.words == null)
             HangGame.words = FileManager.readHangGameWords(this);
     }
 
+    /**
+     * Crea el archivo con todas las palabras disponibles, con palabras predeterminadas
+     */
     private void writeWordsFile(){
         try{
 
@@ -189,14 +250,18 @@ public class MainActivity extends AppCompatActivity {
      */
     private void onClickEnd(View v){
 
-        waitStartGame = true;
-        changeState();
+        finishGame();
 
     }
 
+    /**
+     * Arranca la activity UserActivity y pasa el nombre del jugador actual
+     * @param v
+     */
     private void onClickPlayer(View v){
 
         Intent intent = new Intent(this, UserActivity.class);
+        intent.putExtra("PLAYER_NAME", hangGame.getPlayer().getName());
         startActivityForResult(intent, USER_ACTIVITY);
 
     }
@@ -208,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
     private void onClickOptions(View v){
 
         Intent intent = new Intent(this, OptionsActivity.class);
-        intent.putExtra("LEVEL", hangGame.getCurrentLives());
+        intent.putExtra("LEVEL", hangGame.getLives());
         intent.putExtra("COMODIN", hangGame.hasComodin());
         startActivityForResult(intent, OPTIONS_ACTIVITY);
 
@@ -231,7 +296,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Actualiza los datos de la interfaz con los datos del juego
+     * Actualiza los datos de la interfaz con los datos del juego y las posiciones disponibles del spinner con las posiciones
      */
     private void updateDataGUI(){
 
@@ -240,14 +305,21 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Actualiza los componentes de la interfaz con los nuevos datos del objecto HangGame
+     */
     private void updateHangGameDataGUI(){
 
+        lblPlaying.setText(getString(R.string.playing, hangGame.getPlayer().getName()));
         lblHiddenWord.setText(hangGame.getHiddenWord());
-        lblPoints.setText(getString(R.string.puntos, hangGame.getPoints()));
+        lblPoints.setText(getString(R.string.puntos, hangGame.getPlayer().getPoints()));
         lblLives.setText(getString(R.string.vidas, hangGame.getCurrentLives()));
 
     }
 
+    /**
+     * Actualiza las posiciones disponibles en la palabra del spinner que indica la posicion de la palabra
+     */
     private void updatePositionSpinner(){
 
         positionsArray.clear();
@@ -265,6 +337,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Actualiza los caracteres disponibles del spinner con la nueva posicion seleccionada
+     */
     private void updateCharSpinner(){
 
         String letras = hangGame.getCharsPosition(getPositionSelected());
@@ -276,6 +351,17 @@ public class MainActivity extends AppCompatActivity {
         charsAdapter.notifyDataSetChanged();
 
         charSpinner.setSelection(0);
+
+    }
+
+    /**
+     * LLamado cuando la partida termina por acertar la palabra, fin de vidas o por el boton finalizar.
+     * Cambia el estado de la aplicacion a esperar para jugar
+     */
+    private void finishGame(){
+
+        waitStartGame = true;
+        changeState();
 
     }
 
@@ -297,7 +383,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
 
                 case USER_ACTIVITY:
-                    Log.d("PRUEBA", "USER");
+                    receivedDataUser(data);
                     break;
 
             }
@@ -305,8 +391,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Recibe los datos de la OptionsActivity y actualiza los datos de HangGame
-     * @param intent Intent con los datos recibidos
+     * Recibe el numero de vidar y si selecciono el comodin de la OptionsActivity y actualiza los datos del objeto HangGame
+     * @param intent Intent que contiene el bundle con los datos recibidos de la activity
      */
     private void receivedDataOptions(Intent intent){
 
@@ -317,51 +403,34 @@ public class MainActivity extends AppCompatActivity {
             hangGame.setLives(data.getInt("LEVEL"));
             hangGame.setComodin(data.getBoolean("COMODIN"));
 
+            writeOptionsFile(); //GUARDA LAS OPCIONES EN LE FICHERO
+
         }
 
     }
 
-    private void receivedDataUser(Intent data){
+    /**
+     * Recibe el nombre del jugador escrito en la UserActivity y actualiza los datos del objeto HangGame
+     * @param intent Intent que contiene el bundle con los datos recibidos de la activity
+     */
+    private void receivedDataUser(Intent intent){
+
+        Bundle data = intent.getExtras();
 
         if(data !=null)
-            if(data.getExtras() != null){
-
-                Bundle bundle = data.getExtras();
-                hangGame.setLives(bundle.getInt("LEVEL"));
-                hangGame.setComodin(bundle.getBoolean("COMODIN"));
-
-            }
+            hangGame.getPlayer().setName(data.getString("PLAYER_NAME"));
 
     }
 
     /**
-     * Posicion seleccionada en el spinner de posicion
-     * @return Posicion seleccionada
+     * Devuelve la posicion de la letra seleccionada, -1 en caso de ser todas
+     * @return Posicion seleccionada, -1 si son todas las posiciones
      */
     private int getPositionSelected(){
 
         String position = positionSpinner.getSelectedItem().toString();
 
         return position.equals("*") ? -1 : (Integer.parseInt(position)-1);
-
-    }
-
-    /**
-     * Guarda las opciones de HangGame en un fichero
-     */
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        writeOptionsFile();
-
-        /*try{
-
-            FileManager.writeHangGameOptions(this, hangGame);
-
-        }catch (IOException e){
-            System.err.println("FILE NOT FOUND");
-        }*/
 
     }
 

@@ -1,4 +1,4 @@
-package com.alejandro.ahorcado;
+package com.alejandro.ahorcado.controller;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +11,9 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+
+import com.alejandro.ahorcado.R;
+import com.alejandro.ahorcado.utils.DifficultyEnum;
 
 public class OptionsActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -60,6 +63,7 @@ public class OptionsActivity extends AppCompatActivity implements View.OnClickLi
 
             @Override
             public void afterTextChanged(Editable editable) {}
+
         });
 
         btBack.setOnClickListener(this);

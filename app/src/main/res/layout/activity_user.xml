@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UserActivity"
+    tools:context=".controller.UserActivity"
     android:padding="30dp"
     android:orientation="vertical"
     android:background="@color/bakgroundColor">
@@ -43,12 +43,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ListView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listScore"
             android:layout_width="match_parent"
             android:textSize="@dimen/extra_small_font"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:scrollbars="vertical"/>
 
         <Button
             android:id="@+id/btBack"

@@ -1,4 +1,4 @@
-package com.alejandro.ahorcado;
+package com.alejandro.ahorcado.utils;
 
 public class Utils {
 

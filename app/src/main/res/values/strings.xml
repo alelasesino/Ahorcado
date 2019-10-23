@@ -22,4 +22,6 @@
     <string name="player">Jugador</string>
     <string name="playing">Jugando %s</string>
     <string name="default_player_name">Player 1</string>
+    <string name="winner_player">Enhorabuena %s has acertado la palabra, conseguistes %d puntos</string>
+    <string name="loser_player">Lo siento %s la palabra era %s, conseguistes %d puntos</string>
 </resources>

@@ -1,19 +1,22 @@
-package com.alejandro.ahorcado;
+package com.alejandro.ahorcado.controller;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
+
+import com.alejandro.ahorcado.R;
 
 public class UserActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText txtUser;
-    private ListView listScore;
+    private RecyclerView listScore;
     private Button btBack;
 
     @Override
@@ -31,7 +34,13 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         listScore = findViewById(R.id.listScore);
         btBack = findViewById(R.id.btBack);
 
+        //AÑADE UNA LINEA HORIZONTAL ENTRE CADA ITEM
+        listScore.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        listScore.setLayoutManager(new LinearLayoutManager(this));
+
         btBack.setOnClickListener(this);
+
+        receivedDataUser();
 
     }
 
@@ -43,6 +52,15 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
         setResult(RESULT_OK, resultIntent);
         finish();
+
+    }
+
+    private void receivedDataUser(){
+
+        Bundle data = getIntent().getExtras();
+
+        if(data != null)
+            txtUser.setText(data.getString("PLAYER_NAME"));
 
     }
 

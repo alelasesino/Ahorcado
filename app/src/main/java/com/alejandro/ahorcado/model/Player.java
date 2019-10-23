@@ -1,4 +1,8 @@
-package com.alejandro.ahorcado;
+package com.alejandro.ahorcado.model;
+
+import android.content.Context;
+
+import com.alejandro.ahorcado.R;
 
 import java.util.Date;
 
@@ -8,12 +12,8 @@ public class Player {
     private int points;
     private Date date;
 
-    public Player(){}
-
-    public Player(String name, int points, Date date) {
-        this.name = name;
-        this.points = points;
-        this.date = date;
+    public Player(Context context){
+        name = context.getString(R.string.default_player_name);
     }
 
     public String getName() {
