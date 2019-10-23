@@ -59,13 +59,13 @@ public class FileManager {
         try{
 
             while(true)
-                words.append(dataInput.readUTF()).append("-");
+                words.append(dataInput.readUTF()).append(";");
 
         }catch (EOFException e){}
 
         dataInput.close();
 
-        return words.toString().split("-");
+        return words.toString().split(";");
 
     }
 

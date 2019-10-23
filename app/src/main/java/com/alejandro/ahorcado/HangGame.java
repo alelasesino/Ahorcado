@@ -1,9 +1,6 @@
 package com.alejandro.ahorcado;
 
-import android.util.Log;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class HangGame {
     //String = "abcdefghijklmnñopqrstuvwxyz"
@@ -111,7 +108,7 @@ public class HangGame {
     }
 
     private String getRandomWord(){
-        return words[Utils.getRandomNumber(0, words.length)];
+        return words != null ? words[Utils.getRandomNumber(0, words.length)] : "";
     }
 
     /**

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FFE069</color>
-    <color name="colorPrimaryDark">#FFD63E</color>
-    <color name="colorPrimaryDarkFont">#BE9B00</color>
-    <color name="colorAccent">#FF9800</color>
-    <color name="bakgroundColor">#FFF284</color>
-    <color name="colorButton">#DBC500</color>
-    <color name="colorCancel">#FF7A33</color>
-    <color name="colorAccept">#60C422</color>
-    <color name="colorDisabled">#D59D9FA2</color>
+    <color name="colorPrimary">#FFE069</color> <!--#FFE069-->
+    <color name="colorPrimaryDark">#FFD63E</color> <!--#FFD63E-->
+    <color name="colorPrimaryDarkFont">#BE9B00</color> <!--#BE9B00-->
+    <color name="colorAccent">#FF9800</color> <!--#FF9800-->
+    <color name="bakgroundColor">#FFF284</color> <!--#FFF284-->
+    <color name="colorButton">#DBC500</color> <!--#DBC500-->
+    <color name="colorCancel">#FF7A33</color> <!--#FF7A33-->
+    <color name="colorAccept">#60C422</color> <!--#60C422-->
+    <color name="colorDisabled">#D59D9FA2</color> <!--#D59D9FA2-->
 </resources>

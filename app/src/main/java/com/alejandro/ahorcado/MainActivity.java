@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -99,12 +98,30 @@ public class MainActivity extends AppCompatActivity {
 
         try{
 
-            hangGame = FileManager.readHangGameOptions(this);
+            readOptionsFile(); //LEE EL ARCHIVO CON LAS OPCIONES
 
         }catch (IOException e){
             System.err.println("FILE NOT FOUND");
+            writeOptionsFile(); //CREA EL ARCHIVO
+
         }
 
+    }
+
+    private void readOptionsFile() throws  IOException{
+        if(hangGame == null)
+            hangGame = FileManager.readHangGameOptions(this);
+    }
+
+    private void writeOptionsFile(){
+        try{
+
+            if(hangGame == null)
+                hangGame = new HangGame();
+
+            FileManager.writeHangGameOptions(this, hangGame);
+
+        }catch (IOException e){}
     }
 
     /**
@@ -126,22 +143,44 @@ public class MainActivity extends AppCompatActivity {
      */
     private void onClickStart(View v){
 
-        try{
-
-            if(HangGame.words == null)
-                HangGame.words = FileManager.readHangGameWords(this);
-            //FileManager.writeHangGameWords(this, "Alejandro", "Ordenador", "Android");
-            //Log.d("PRUEBA", "WRITTING WORDS");
-        }catch (IOException e){
-            System.err.println("FILE NOT FOUND");
-        }
-
+        initHangGameWords();
         hangGame.startGame();
 
         waitStartGame = false;
         changeState();
         updateDataGUI();
 
+    }
+
+    private void initHangGameWords(){
+
+        try{
+
+            if(HangGame.words == null) readWordsFile(); //LEE EL ARCHIVO DE PALABRAS
+
+        }catch (IOException e){
+
+            System.err.println("FILE NOT FOUND"); //NO EXISTE EL ARCHIVO
+
+            writeWordsFile(); //CREA EL ARCHIVO
+
+            try{ readWordsFile(); }catch (IOException e1){} //LEE EL ARCHIVO DE PALABRAS DE NUEVO
+
+        }
+
+    }
+
+    private void readWordsFile() throws  IOException{
+        if(HangGame.words == null)
+            HangGame.words = FileManager.readHangGameWords(this);
+    }
+
+    private void writeWordsFile(){
+        try{
+
+            FileManager.writeHangGameWords(this, "Alejandro", "Ordenador", "Android");
+
+        }catch (IOException e1){}
     }
 
     /**
@@ -314,13 +353,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        try{
+        writeOptionsFile();
+
+        /*try{
 
             FileManager.writeHangGameOptions(this, hangGame);
 
         }catch (IOException e){
             System.err.println("FILE NOT FOUND");
-        }
+        }*/
 
     }
+
 }
