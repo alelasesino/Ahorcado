@@ -1,12 +1,17 @@
 package com.alejandro.ahorcado;
 
+import android.util.Log;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class HangGame {
     //String = "abcdefghijklmnñopqrstuvwxyz"
     //String={"", "", "", "", ""}; CADA POSICION DEL ARRAY ES UN CARACTER DE LA PALABRA
     //PARA CADA CARACTER ALMACENO UN CADENA CON TODAS LOS CARACTERES QUE YA SE INSERTARON
     //NO MOSTRAR LAS PALABRAS QUE YA ESTEN INSERTARDAS
+    public static String[] words;
+
     private String playerName; //TODO CAMBIAR A UN OBJECTO PLAYER
 
     private String[] charsPosition;
@@ -21,6 +26,9 @@ public class HangGame {
 
     }
 
+    /**
+     * Inicializa para cada posicion de la palabra con todas las letras disponibles
+     */
     private void initCharsPosition(){
 
         String chars = "abcdefghijklmnñopqrstuvwxyz";
@@ -32,6 +40,9 @@ public class HangGame {
 
     }
 
+    /**
+     * Inicializa la palabra oculta con guiones bajos
+     */
     private void initHiddenWord(){
 
         hiddenWord = new StringBuilder();
@@ -78,26 +89,49 @@ public class HangGame {
 
     }
 
+    /**
+     * Incrementa los puntos de la partida
+     * @param extraPoints Puntos extras
+     */
     private void increasePoints(boolean extraPoints){
         points += extraPoints ? 5 : 1;
     }
 
-    public void setHiddenWord(String word){
+    private void setHiddenWord(String word){
         this.word = new StringBuilder(word);
+    }
+
+    public void startGame(){
+
+        setHiddenWord(getRandomWord());
 
         initCharsPosition();
         initHiddenWord();
 
     }
 
+    private String getRandomWord(){
+        return words[Utils.getRandomNumber(0, words.length)];
+    }
+
+    /**
+     * Devuelve la palabra oculta añadiendo espacios entre cada caracter
+     * @return Palabra oculta
+     */
     public String getHiddenWord(){
 
-        StringBuilder result = new StringBuilder();
+        if(hiddenWord != null){
 
-        for(int i = 0; i<hiddenWord.length(); i++)
-            result.append(hiddenWord.charAt(i)).append(" ");
+            StringBuilder result = new StringBuilder();
 
-        return result.toString().trim();
+            for(int i = 0; i<hiddenWord.length(); i++)
+                result.append(hiddenWord.charAt(i)).append(" ");
+
+            return result.toString().trim();
+
+        }
+
+        return "";
 
     }
 
@@ -134,6 +168,10 @@ public class HangGame {
         this.playerName = playerName;
     }
 
+    /**
+     * Comprueba si la partida ha terminado ya sea por puntos o por vidas
+     * @return
+     */
     public boolean endGame(){
 
         word.trimToSize();
@@ -143,6 +181,10 @@ public class HangGame {
 
     }
 
+    /**
+     * Obtiene los numeros de las posiciones disponibles de la palabra
+     * @return Cadena con todas las posiciones disponibles
+     */
     public String[] getAvailablePositions(){
 
         ArrayList<String> positions = new ArrayList<>();
@@ -158,6 +200,11 @@ public class HangGame {
 
     }
 
+    /**
+     * Obtiene todos los caracteres disponibles para la posicion indicada por parametro
+     * @param position Posicion de la cadena
+     * @return Cadena con todas las letras disponibles
+     */
     public String getCharsPosition(int position) {
 
         if(position != -1)
@@ -167,6 +214,11 @@ public class HangGame {
 
     }
 
+    /**
+     * Fusiona todas las cadenas recibidas en un una. Ej. input["abc", "bcde"] output["abcde"]
+     * @param strings Cadenas a fusionar
+     * @return Cadena fusionada
+     */
     private String mergeString(String... strings) {
 
         String result = "";

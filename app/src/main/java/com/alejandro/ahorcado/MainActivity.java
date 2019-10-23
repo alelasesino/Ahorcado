@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -20,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int OPTIONS_ACTIVITY = 1, USER_ACTIVITY = 2;
 
-    private HangGame hangGame = new HangGame();
+    private HangGame hangGame;
 
     private TextView lblPlaying, lblHiddenWord, lblPoints, lblLives;
     private Spinner positionSpinner, charSpinner;
@@ -36,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        initializeComponents();
         initializeHangGame();
+        initializeComponents();
         changeState();
 
     }
@@ -80,9 +82,10 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-        lblPlaying.setText(getString(R.string.playing, hangGame.getPlayerName()));
-        lblPoints.setText(getString(R.string.puntos, 0));
-        lblLives.setText(getString(R.string.vidas, 0));
+       //lblPlaying.setText(getString(R.string.playing, hangGame.getPlayerName()));
+        /*lblPoints.setText(getString(R.string.puntos, 0));
+        lblLives.setText(getString(R.string.vidas, 0));*/
+        updateHangGameDataGUI();
 
         positionsAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, positionsArray);
         charsAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, charsArray);
@@ -94,7 +97,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void initializeHangGame(){
 
+        try{
 
+            hangGame = FileManager.readHangGameOptions(this);
+
+        }catch (IOException e){
+            System.err.println("FILE NOT FOUND");
+        }
 
     }
 
@@ -117,7 +126,17 @@ public class MainActivity extends AppCompatActivity {
      */
     private void onClickStart(View v){
 
-        hangGame.setHiddenWord("Alejandro");
+        try{
+
+            if(HangGame.words == null)
+                HangGame.words = FileManager.readHangGameWords(this);
+            //FileManager.writeHangGameWords(this, "Alejandro", "Ordenador", "Android");
+            //Log.d("PRUEBA", "WRITTING WORDS");
+        }catch (IOException e){
+            System.err.println("FILE NOT FOUND");
+        }
+
+        hangGame.startGame();
 
         waitStartGame = false;
         changeState();
@@ -125,6 +144,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Manda a cambiar el estado de aplicacion a esperar juego
+     * @param v
+     */
     private void onClickEnd(View v){
 
         waitStartGame = true;
@@ -173,10 +196,14 @@ public class MainActivity extends AppCompatActivity {
      */
     private void updateDataGUI(){
 
-        lblHiddenWord.setText(hangGame.getHiddenWord());
-
+        updateHangGameDataGUI();
         updatePositionSpinner();
 
+    }
+
+    private void updateHangGameDataGUI(){
+
+        lblHiddenWord.setText(hangGame.getHiddenWord());
         lblPoints.setText(getString(R.string.puntos, hangGame.getPoints()));
         lblLives.setText(getString(R.string.vidas, hangGame.getCurrentLives()));
 
@@ -202,7 +229,6 @@ public class MainActivity extends AppCompatActivity {
     private void updateCharSpinner(){
 
         String letras = hangGame.getCharsPosition(getPositionSelected());
-
 
         String[] chars = letras.split("(?!^)"); //DIVIDE LA CADENA POR CARACTERES
 
@@ -281,4 +307,20 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Guarda las opciones de HangGame en un fichero
+     */
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        try{
+
+            FileManager.writeHangGameOptions(this, hangGame);
+
+        }catch (IOException e){
+            System.err.println("FILE NOT FOUND");
+        }
+
+    }
 }
