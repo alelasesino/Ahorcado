@@ -1,42 +1,48 @@
 package com.alejandro.ahorcado.controller;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.alejandro.ahorcado.R;
 import com.alejandro.ahorcado.model.Player;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 
 public class UserActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Player[] players;
+    private ArrayList<Player> players;
     private EditText txtUser;
-    private RecyclerView listScore;
     private Button btBack;
+
+    private RecyclerView recyclerScore;
+    private PlayerAdapter adapterScore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
 
-        players = new Player[5];
-        players[0] = new Player("Alejandro", 2);
-        players[1] = new Player("Angel", 5);
-        players[2] = new Player("Pedro", 2);
-        players[3] = new Player("Julian", 7);
-        players[4] = new Player("Manuel", 10);
+        players = new ArrayList<>();
+        players.add(new Player("Alejandro", 2));
+        players.add(new Player("Angel", 5));
+        players.add(new Player("Pedro", 2));
+        players.add(new Player("Julian", 7));
+        players.add(new Player("Manuel", 10));
 
-        Arrays.sort(players, (player1, player2) -> player2.getPoints() - player1.getPoints());
+        players.sort((player1, player2) -> player2.getPoints() - player1.getPoints());
 
         initializeComponents();
 
@@ -45,22 +51,57 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     private void initializeComponents(){
 
         txtUser = findViewById(R.id.txtUser);
-        listScore = findViewById(R.id.listScore);
+        recyclerScore = findViewById(R.id.listScore);
         btBack = findViewById(R.id.btBack);
 
-        //AÑADE UNA LINEA HORIZONTAL ENTRE CADA ITEM
-        listScore.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        listScore.setLayoutManager(new LinearLayoutManager(this));
-        listScore.setAdapter(new PlayerAdapter(players));
-
         btBack.setOnClickListener(this);
+
+        initializeRecyclerView();
 
         receivedDataUser();
 
     }
 
+    private void initializeRecyclerView(){
+
+        recyclerScore.setHasFixedSize(true);
+        recyclerScore.setLayoutManager(new LinearLayoutManager(this));
+
+        adapterScore = new PlayerAdapter(players);
+        recyclerScore.setAdapter(adapterScore);
+
+        //ASISTENTE QUE PERMITE ARRASTRAR LOS CARDVIEWS
+        new ItemTouchHelper(new ItemTouchHelper.Callback() {
+            @Override
+            public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+                return makeMovementFlags(1000, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
+            }
+
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                adapterScore.deleteItem(viewHolder.getAdapterPosition());
+            }
+        }).attachToRecyclerView(recyclerScore);
+
+        adapterScore.setOnItemClickListener(this::onItemClick);
+
+    }
+
+    private void onItemClick(Player player){
+        txtUser.setText(player.getName());
+    }
+
     @Override
     public void onClick(View view) {
+        closeActivity();
+    }
+
+    private void closeActivity(){
 
         Intent resultIntent = new Intent();
         resultIntent.putExtra("PLAYER_NAME", getPlayerName());

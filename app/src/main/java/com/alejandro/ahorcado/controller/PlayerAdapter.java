@@ -1,6 +1,5 @@
 package com.alejandro.ahorcado.controller;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,18 +11,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.alejandro.ahorcado.R;
 import com.alejandro.ahorcado.model.Player;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
-//https://www.youtube.com/watch?v=PHdTs_-PrYA
+public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ItemPlayer> {
 
-public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ItemPlayer>{
+    private ArrayList<Player> players;
+    private OnItemClickListener listener;
 
-    private Player[] players;
-
-    public PlayerAdapter(Player[] players){
+    public PlayerAdapter(ArrayList<Player> players){
         this.players = players;
     }
 
@@ -31,7 +28,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ItemPlayer
     @Override
     public ItemPlayer onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        int itemLayoutId = R.layout.player_list_holder;
+        int itemLayoutId = R.layout.player_card_view;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         View view = inflater.inflate(itemLayoutId, parent, false);
@@ -42,17 +39,21 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ItemPlayer
 
     @Override
     public void onBindViewHolder(@NonNull ItemPlayer holder, int position) {
-
-        holder.bind(players[position]);
-
+        holder.bind(players.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return players.length;
+        return players.size();
     }
 
-    class ItemPlayer extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public void deleteItem(int position){
+        players.remove(position);
+        notifyItemRemoved(position);
+        //notifyItemRangeChanged(position, players.size());
+    }
+
+    class ItemPlayer extends RecyclerView.ViewHolder {
 
         private TextView lblPoints, lblPlayerName, lblDate;
 
@@ -63,9 +64,18 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ItemPlayer
             lblPlayerName = itemView.findViewById(R.id.lblPlayerName);
             lblDate = itemView.findViewById(R.id.lblDate);
 
+            itemView.setOnClickListener((view) -> {
+
+                int position = getAdapterPosition();
+
+                if(position != RecyclerView.NO_POSITION && listener != null)
+                    listener.onItemClick(players.get(position));
+
+            });
+
         }
 
-        void bind(Player player){
+        public void bind(Player player){
 
             lblPoints.setText(String.valueOf(player.getPoints()));
             lblPlayerName.setText(player.getName());
@@ -73,10 +83,14 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ItemPlayer
 
         }
 
-        @Override
-        public void onClick(View view) {
-            recyclerV
-        }
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener){
+        this.listener = listener;
+    }
+
+    public interface OnItemClickListener{
+        void onItemClick(Player player);
     }
 
 }

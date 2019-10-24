@@ -6,4 +6,5 @@
     android:textSize="@dimen/small_font"
     android:paddingHorizontal="35dp"
     android:paddingVertical="5dp"
-    android:background="@color/bakgroundColor"/>
+    android:background="@color/bakgroundColor"
+    android:foreground="?android:attr/selectableItemBackground"/>

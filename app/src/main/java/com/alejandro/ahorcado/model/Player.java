@@ -4,9 +4,10 @@ import android.content.Context;
 
 import com.alejandro.ahorcado.R;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Player {
+public class Player implements Serializable {
 
     private String name;
     private int points;

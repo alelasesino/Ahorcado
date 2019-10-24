@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Ahorcado</string>
+    <string name="default_player_name">Jugador 1</string>
+    <string name="comodin">Permitir comodín * en posición</string>
+    <string name="back">Volver</string>
+    <string name="easy">Fácil</string>
+    <string name="end">Finalizar</string>
+    <string name="hard">Avanzado</string>
+    <string name="letra">Letra:</string>
+    <string name="level">Dificultad</string>
+    <string name="loser_player">%s la palabra era %s, conseguistes %d puntos</string>
+    <string name="name">Nombre</string>
+    <string name="normal">Medio</string>
+    <string name="options">Opciones</string>
+    <string name="options_title">OPCIONES DE JUEGO</string>
+    <string name="play">¡Jugar!</string>
+    <string name="player">Jugador</string>
+    <string name="playing">Jugando %s</string>
+    <string name="posicion">Posición:</string>
+    <string name="puntos">Puntos: %d</string>
+    <string name="start">Iniciar</string>
+    <string name="user_subtitle">Puntuacion últimos jugadores</string>
+    <string name="user_title">REGISTRO DE USUARIO</string>
+    <string name="vidas">N.º Vidas: %d</string>
+    <string name="vidas_static">N.º Vidas:</string>
+    <string name="winner_player">%s has acertado la palabra, conseguistes %d puntos</string>
+    <string name="title_app_name">AHORCADO</string>
+</resources>

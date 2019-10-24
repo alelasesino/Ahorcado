@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hang Game</string>
+    <string name="back">Back</string>
+    <string name="comodin">Allow wildcard * in position</string>
+    <string name="default_player_name">Player 1</string>
+    <string name="easy">Easy</string>
+    <string name="end">Finalize</string>
+    <string name="hard">Advanced</string>
+    <string name="letra">Letter:</string>
+    <string name="level">Difficulty</string>
+    <string name="loser_player">%s the word was %s, you got %d points</string>
+    <string name="name">Name</string>
+    <string name="normal">Medium</string>
+    <string name="options">Options</string>
+    <string name="options_title">GAME OPTIONS</string>
+    <string name="play">Play!</string>
+    <string name="player">Player</string>
+    <string name="playing">Playing %s</string>
+    <string name="posicion">Position:</string>
+    <string name="puntos">Points: %d</string>
+    <string name="start">Start</string>
+    <string name="user_subtitle">Last players score</string>
+    <string name="user_title">USER REGISTER</string>
+    <string name="vidas">N.º Lives: %d</string>
+    <string name="vidas_static">N.º Lives:</string>
+    <string name="winner_player">%s you got the word right, you got %d points</string>
+    <string name="title_app_name">HANG GAME</string>
+</resources>

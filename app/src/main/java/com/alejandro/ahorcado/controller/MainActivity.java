@@ -1,10 +1,15 @@
 package com.alejandro.ahorcado.controller;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -43,9 +48,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        initializeToolbar();
         initializeHangGame();
         initializeComponents();
         changeState();
+
+    }
+
+    private void initializeToolbar(){
+
+        ActionBar toolbar = getSupportActionBar();
+
+        if(toolbar != null){
+            toolbar.setDisplayShowHomeEnabled(true);
+            toolbar.setIcon(R.drawable.ic_toolbar_icon);
+            toolbar.setTitle("   " + getString(R.string.title_app_name));
+        }
 
     }
 
@@ -235,11 +253,13 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Crea el archivo con todas las palabras disponibles, con palabras predeterminadas
+     * en los recursos de cadenas
      */
     private void writeWordsFile(){
         try{
 
-            FileManager.writeHangGameWords(this, "Alejandro", "Ordenador", "Android");
+            FileManager.writeHangGameWords(this, getResources().getStringArray(R.array.wods_game));
+            //FileManager.writeHangGameWords(this, "Alejandro", "Ordenador", "Android");
 
         }catch (IOException e1){}
     }

@@ -13,7 +13,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/app_name"
+        android:text="@string/title_app_name"
         android:textSize="@dimen/title_font"
         android:textAlignment="center"/>
 

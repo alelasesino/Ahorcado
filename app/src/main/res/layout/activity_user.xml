@@ -49,7 +49,8 @@
             android:textSize="@dimen/extra_small_font"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:scrollbars="vertical"/>
+            android:requiresFadingEdge="vertical"
+            android:fadingEdgeLength="25dp"/>
 
         <Button
             android:id="@+id/btBack"
@@ -58,7 +59,8 @@
             android:text="@string/back"
             android:textSize="@dimen/small_font"
             android:background="@drawable/start_button_selector"
-            android:textColor="@color/bakgroundColor"/>
+            android:textColor="@color/bakgroundColor"
+            android:layout_marginTop="10dp"/>
 
     </LinearLayout>
 
