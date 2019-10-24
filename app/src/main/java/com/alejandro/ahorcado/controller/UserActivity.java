@@ -12,9 +12,14 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.alejandro.ahorcado.R;
+import com.alejandro.ahorcado.model.Player;
+
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class UserActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private Player[] players;
     private EditText txtUser;
     private RecyclerView listScore;
     private Button btBack;
@@ -23,6 +28,15 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
+
+        players = new Player[5];
+        players[0] = new Player("Alejandro", 2);
+        players[1] = new Player("Angel", 5);
+        players[2] = new Player("Pedro", 2);
+        players[3] = new Player("Julian", 7);
+        players[4] = new Player("Manuel", 10);
+
+        Arrays.sort(players, (player1, player2) -> player2.getPoints() - player1.getPoints());
 
         initializeComponents();
 
@@ -37,6 +51,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         //AÑADE UNA LINEA HORIZONTAL ENTRE CADA ITEM
         listScore.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         listScore.setLayoutManager(new LinearLayoutManager(this));
+        listScore.setAdapter(new PlayerAdapter(players));
 
         btBack.setOnClickListener(this);
 

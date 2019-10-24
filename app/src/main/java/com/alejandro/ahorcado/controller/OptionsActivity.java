@@ -49,6 +49,7 @@ public class OptionsActivity extends AppCompatActivity implements View.OnClickLi
         });
 
         txtLives.addTextChangedListener(new TextWatcher() {
+
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 

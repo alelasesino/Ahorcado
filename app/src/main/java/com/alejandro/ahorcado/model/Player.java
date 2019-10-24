@@ -16,6 +16,12 @@ public class Player {
         name = context.getString(R.string.default_player_name);
     }
 
+    public Player(String name, int points) {
+        this.name = name;
+        this.points = points;
+        this.date = new Date();
+    }
+
     public String getName() {
         return name;
     }

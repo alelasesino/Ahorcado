@@ -13,7 +13,7 @@ public class HangGame {
     public static String[] words;
     private final int EXTRA_POINTS = 5;
 
-    private Player player; //TODO CAMBIAR A UN OBJECTO PLAYER
+    private Player player;
 
     private String[] charsPosition;
     private StringBuilder word, hiddenWord;
