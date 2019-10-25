@@ -120,15 +120,23 @@ public class MainActivity extends AppCompatActivity {
 
     private void initializeHangGame(){
 
-        try{
+        Thread thread = new Thread(()-> {
 
-            readOptionsFile(); //LEE EL ARCHIVO CON LAS OPCIONES
+            try{
 
-        }catch (IOException e){
-            System.err.println("FILE NOT FOUND");
-            writeOptionsFile(); //CREA EL ARCHIVO
+                readOptionsFile(); //LEE EL ARCHIVO CON LAS OPCIONES
 
-        }
+            }catch (IOException e){
+                System.err.println("FILE NOT FOUND");
+                writeOptionsFile(); //CREA EL ARCHIVO
+            }
+
+        });
+
+        try {
+            thread.start();
+            thread.join();
+        }catch (InterruptedException e){}
 
         hangGame.setPlayer(new Player(this));
 

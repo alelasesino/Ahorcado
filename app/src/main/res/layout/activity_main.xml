@@ -38,15 +38,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingStart="25dp"
-        android:paddingEnd="0dp">
+        android:weightSum="100">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:text="@string/posicion"
             android:textSize="@dimen/normal_font"
-            android:textAlignment="center"/>
+            android:textAlignment="textEnd"
+            android:layout_weight="40"/>
 
         <Spinner
             android:id="@+id/positionSpinner"
@@ -60,17 +60,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingStart="25dp"
-        android:paddingEnd="25dp">
+        android:weightSum="100">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:text="@string/letra"
             android:textSize="@dimen/normal_font"
-            android:textAlignment="center"
-            android:paddingStart="35dp"
-            android:paddingEnd="0dp"/>
+            android:textAlignment="textEnd"
+            android:layout_weight="40"/>
 
         <Spinner
             android:id="@+id/charSpinner"
@@ -124,28 +122,29 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_marginVertical="10dp">
+        android:layout_marginVertical="10dp"
+        android:weightSum="100">
 
         <Button
             android:id="@+id/btPlayer"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/player"
             android:textSize="@dimen/small_font"
             android:background="@drawable/outline_button_selector"
             android:textColor="@drawable/outline_button_selector"
-            android:layout_weight="1"
+            android:layout_weight="50"
             android:layout_marginEnd="10dp"/>
 
         <Button
             android:id="@+id/btOptions"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/options"
             android:textSize="@dimen/small_font"
             android:textColor="@drawable/outline_button_selector"
             android:background="@drawable/outline_button_selector"
-            android:layout_weight="0.8"/>
+            android:layout_weight="50"/>
 
     </LinearLayout>
 
@@ -154,28 +153,29 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_marginVertical="10dp">
+        android:layout_marginVertical="10dp"
+        android:weightSum="100">
 
         <Button
             android:id="@+id/btStart"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/start"
             android:textSize="@dimen/small_font"
             android:background="@drawable/start_button_selector"
-            android:layout_weight="1"
+            android:layout_weight="50"
             android:layout_marginEnd="10dp"
             android:textColor="@color/bakgroundColor"/>
 
         <Button
             android:id="@+id/btEnd"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/end"
             android:textSize="@dimen/small_font"
             android:background="@drawable/outline_end_button_selector"
             android:textColor="@drawable/outline_end_button_selector"
-            android:layout_weight="0.6"
+            android:layout_weight="50"
             android:clickable="true"/>
 
     </LinearLayout>

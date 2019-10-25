@@ -1,5 +1,6 @@
 package com.alejandro.ahorcado.controller;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -30,7 +31,20 @@ public class OptionsActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options);
 
+        initializeToolbar();
         initializeComponents();
+
+    }
+
+    private void initializeToolbar(){
+
+        ActionBar toolbar = getSupportActionBar();
+
+        if(toolbar != null){
+            toolbar.setDisplayShowHomeEnabled(true);
+            toolbar.setIcon(R.drawable.ic_settings);
+            toolbar.setTitle("   " + getString(R.string.options_title));
+        }
 
     }
 

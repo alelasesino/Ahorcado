@@ -1,6 +1,7 @@
 package com.alejandro.ahorcado.controller;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -44,7 +45,20 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
         players.sort((player1, player2) -> player2.getPoints() - player1.getPoints());
 
+        initializeToolbar();
         initializeComponents();
+
+    }
+
+    private void initializeToolbar(){
+
+        ActionBar toolbar = getSupportActionBar();
+
+        if(toolbar != null){
+            toolbar.setDisplayShowHomeEnabled(true);
+            toolbar.setIcon(R.drawable.ic_scoreboard);
+            toolbar.setTitle("   " + getString(R.string.user_title));
+        }
 
     }
 

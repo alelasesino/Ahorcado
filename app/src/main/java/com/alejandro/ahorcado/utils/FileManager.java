@@ -74,12 +74,12 @@ public class FileManager {
 
     }
 
-    public static void writeHangGamePlayers(Context context, Player... players) throws IOException {
+    public static void deleteHangGamePlayer(Context context, Player player){}
+
+    public static void writeHangGamePlayer(Context context, Player player) throws IOException {
 
         ObjectOutputStream output = new ObjectOutputStream(context.openFileOutput(HANG_GAME_PLAYERS, Context.MODE_PRIVATE));
-
-        for(Player player : players)
-            output.writeObject(player);
+        output.writeObject(player);
 
         output.close();
 
