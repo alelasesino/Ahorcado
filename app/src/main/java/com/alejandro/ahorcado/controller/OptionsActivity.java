@@ -14,14 +14,13 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 
 import com.alejandro.ahorcado.R;
-import com.alejandro.ahorcado.utils.DifficultyEnum;
+import com.alejandro.ahorcado.model.HangGame;
 
 public class OptionsActivity extends AppCompatActivity implements View.OnClickListener {
 
     private RadioGroup groupDificultad;
     private EditText txtLives;
     private CheckBox checkboxComodin;
-    private Button btBack;
 
     private int receivedLives;
     private boolean textChanged;
@@ -53,7 +52,7 @@ public class OptionsActivity extends AppCompatActivity implements View.OnClickLi
         groupDificultad = findViewById(R.id.groupDificultad);
         txtLives = findViewById(R.id.txtLives);
         checkboxComodin = findViewById(R.id.checkboxComodin);
-        btBack = findViewById(R.id.btBack);
+        Button btBack = findViewById(R.id.btBack);
 
         groupDificultad.setOnCheckedChangeListener((radioGroup, i) -> {
 
@@ -94,15 +93,15 @@ public class OptionsActivity extends AppCompatActivity implements View.OnClickLi
 
         switch (lives){
 
-            case 15:
+            case HangGame.EASY_MODE:
                 groupDificultad.check(R.id.radioEasy);
                 break;
 
-            case 10:
+            case HangGame.NORMAL_MODE:
                 groupDificultad.check(R.id.radioNormal);
                 break;
 
-            case 5:
+            case HangGame.HARD_MODE:
                 groupDificultad.check(R.id.radioHard);
                 break;
 
@@ -128,14 +127,19 @@ public class OptionsActivity extends AppCompatActivity implements View.OnClickLi
     private int getLevel(){
 
         switch (groupDificultad.getCheckedRadioButtonId()){
+
             case R.id.radioEasy:
-                return DifficultyEnum.EASY.getLives();
+                return HangGame.EASY_MODE;
+
             case R.id.radioNormal:
-                return DifficultyEnum.NORMAL.getLives();
+                return HangGame.NORMAL_MODE;
+
             case R.id.radioHard:
-                return DifficultyEnum.HARD.getLives();
+                return HangGame.HARD_MODE;
+
             default:
                 return getCustomNumLives();
+
         }
 
     }

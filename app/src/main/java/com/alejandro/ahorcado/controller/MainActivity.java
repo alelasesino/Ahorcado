@@ -8,7 +8,18 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,11 +33,15 @@ import com.alejandro.ahorcado.R;
 import com.alejandro.ahorcado.model.HangGame;
 import com.alejandro.ahorcado.model.Player;
 import com.alejandro.ahorcado.utils.FileManager;
+import com.alejandro.ahorcado.utils.Utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Locale;
+
+import javax.crypto.Cipher;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -97,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                 updateCharSpinner();
+                updateHiddenTextView();
 
             }
 
@@ -108,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
         lblPlaying.setText(getString(R.string.playing, ""));
         lblPoints.setText(getString(R.string.puntos, 0));
         lblLives.setText(getString(R.string.vidas, 0));
-        //updateHangGameDataGUI();
 
         positionsAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, positionsArray);
         charsAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, charsArray);
@@ -127,16 +142,19 @@ public class MainActivity extends AppCompatActivity {
                 readOptionsFile(); //LEE EL ARCHIVO CON LAS OPCIONES
 
             }catch (IOException e){
-                System.err.println("FILE NOT FOUND");
-                writeOptionsFile(); //CREA EL ARCHIVO
+
+                writeOptionsFile(); //CREA EL ARCHIVO DE LAS OPCIONES
+
             }
+
+            initHangGameWords(); //ESTABLECE LAS PALABRAS DISPONIBLES EN EL JUEGO
 
         });
 
         try {
             thread.start();
             thread.join();
-        }catch (InterruptedException e){}
+        }catch (InterruptedException ignored){}
 
         hangGame.setPlayer(new Player(this));
 
@@ -158,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
 
                 FileManager.writeHangGameOptions(this, hangGame);
 
-            }catch (IOException e){}
+            }catch (IOException ignored){}
 
         }).start();
 
@@ -166,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Inserta el caracter en el juego y comprueba si acabo la partida
-     * @param v
+     * @param v Vista
      */
     private void onClickPlay(View v){
 
@@ -189,17 +207,10 @@ public class MainActivity extends AppCompatActivity {
 
             Player player = hangGame.getPlayer();
 
-            if(hangGame.getCurrentLives() > 0){ //SI NO TERMINO POR LIMITE DE VIDAS
-
-                Toast.makeText(this, getString(R.string.winner_player, player.getName(), player.getPoints()), Toast.LENGTH_LONG).show();
-
-                player.setDate(new Date());
-
-            } else { //TERMINO POR LIMITE DE VIDAS
-
-                Toast.makeText(this, getString(R.string.loser_player, player.getName(), hangGame.getWord(), player.getPoints()), Toast.LENGTH_LONG).show();
-
-            }
+            if(hangGame.getCurrentLives() > 0) //SI NO TERMINO POR LIMITE DE VIDAS
+                winnerGame(player);
+            else
+                loserGame(player);
 
         } else {
 
@@ -209,15 +220,49 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void winnerGame(Player player) {
+
+        Toast.makeText(this, getString(R.string.winner_player, player.getName(), player.getPoints()), Toast.LENGTH_LONG).show();
+
+        player.setDate(new Date());
+
+        if(!getString(R.string.default_player_name).equalsIgnoreCase(player.getName())) //SI EL NOMBRE DEL JUGADOR NO ES EL DE POR DEFECTO
+            writePlayerScore(); //GUARDO LAS ESTADISTICAS DEL JUGADOR EN EL FICHERO
+
+    }
+
+    private void loserGame(Player player) {
+
+        Toast.makeText(this, getString(R.string.loser_player, player.getName(), hangGame.getWord(), player.getPoints()), Toast.LENGTH_LONG).show();
+
+    }
+
+    private void writePlayerScore(){
+
+        Thread thread = new Thread(() ->{
+
+            try {
+
+                FileManager.appendHangGamePlayer(this, hangGame.getPlayer());
+
+            } catch (Exception ignored) {}
+
+        });
+
+        try {
+            thread.start();
+            thread.join();
+        } catch (InterruptedException ignored) {}
+
+    }
+
     /**
      * Inicia la palabra al juego y actualiza la interfaz
-     * @param v
+     * @param v Vista
      */
     private void onClickStart(View v){
 
-        initHangGameWords(); //ESTABLECE LAS PALABRAS DISPONIBLES EN EL JUEGO
-
-        hangGame.startGame();
+        hangGame.startGame(this);
 
         waitStartGame = false;
 
@@ -236,6 +281,8 @@ public class MainActivity extends AppCompatActivity {
 
         try{
 
+            writeWordsFile();
+
             if(HangGame.words == null) readWordsFile(); //LEE EL ARCHIVO DE PALABRAS
 
         }catch (IOException e){
@@ -244,7 +291,7 @@ public class MainActivity extends AppCompatActivity {
 
             writeWordsFile(); //CREA EL ARCHIVO
 
-            try{ readWordsFile(); }catch (IOException e1){} //LEE EL ARCHIVO DE PALABRAS DE NUEVO
+            try{ readWordsFile(); }catch (IOException ignored){} //LEE EL ARCHIVO DE PALABRAS DE NUEVO
 
         }
 
@@ -267,14 +314,13 @@ public class MainActivity extends AppCompatActivity {
         try{
 
             FileManager.writeHangGameWords(this, getResources().getStringArray(R.array.wods_game));
-            //FileManager.writeHangGameWords(this, "Alejandro", "Ordenador", "Android");
 
-        }catch (IOException e1){}
+        }catch (IOException ignored){}
     }
 
     /**
      * Manda a cambiar el estado de aplicacion a esperar juego
-     * @param v
+     * @param v Vista
      */
     private void onClickEnd(View v){
 
@@ -284,7 +330,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Arranca la activity UserActivity y pasa el nombre del jugador actual
-     * @param v
+     * @param v Vista
      */
     private void onClickPlayer(View v){
 
@@ -296,7 +342,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Arranca la activity OptionsActivity y pasa los opciones actuales
-     * @param v
+     * @param v Vista
      */
     private void onClickOptions(View v){
 
@@ -339,9 +385,59 @@ public class MainActivity extends AppCompatActivity {
     private void updateHangGameDataGUI(){
 
         lblPlaying.setText(getString(R.string.playing, hangGame.getPlayer().getName()));
-        lblHiddenWord.setText(hangGame.getHiddenWord());
         lblPoints.setText(getString(R.string.puntos, hangGame.getPlayer().getPoints()));
         lblLives.setText(getString(R.string.vidas, hangGame.getCurrentLives()));
+
+        updateHiddenTextView();
+
+    }
+
+    private void updateHiddenTextView(){
+
+        SpannableString ss = new SpannableString(hangGame.getHiddenWord()); //TODO OPTIMIZAR SPANNABLE
+
+        for(int i = 0; i<ss.length(); i+=2) {
+
+            final int pos = i;
+
+            ClickableSpan clickableSpan = new ClickableSpan() {
+                @Override
+                public void onClick(@NonNull View view) {
+                    positionSpinner.setSelection(getPositionItem((pos/2)+1));
+                }
+
+                @Override
+                public void updateDrawState(@NonNull TextPaint ds) {
+                    ds.setUnderlineText(false);
+                }
+            };
+
+            if(ss.charAt(i) == '_')
+                ss.setSpan(clickableSpan, i, i+1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        }
+
+        if(positionSpinner.getSelectedItem() != null){
+            int pos = getPositionSelected();
+            pos = pos*2;
+
+            if(pos > -1)
+                ss.setSpan(new ForegroundColorSpan(Color.RED), pos, pos+1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+
+        lblHiddenWord.setHighlightColor(Color.TRANSPARENT);
+        lblHiddenWord.setMovementMethod(LinkMovementMethod.getInstance());
+        lblHiddenWord.setText(ss);
+
+    }
+
+    private int getPositionItem(int position){
+
+        for(int i = 0; i<positionSpinner.getAdapter().getCount(); i++)
+            if(positionSpinner.getAdapter().getItem(i).toString().equalsIgnoreCase(String.valueOf(position)))
+                return i;
+
+        return 0;
 
     }
 
@@ -395,9 +491,9 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Recibe el resultado de la activity que se cerro
-     * @param requestCode
-     * @param resultCode
-     * @param data
+     * @param requestCode Codigo de solicitud de la activity
+     * @param resultCode Codigo del resultado del activity
+     * @param data Datos recibidos de la activity
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

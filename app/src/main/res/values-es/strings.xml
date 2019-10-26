@@ -26,4 +26,6 @@
     <string name="vidas_static">N.º Vidas:</string>
     <string name="winner_player">%s has acertado la palabra, conseguistes %d puntos</string>
     <string name="title_app_name">AHORCADO</string>
+    <string name="chars">abcdefghijklmnñopqrstuvwxyz</string>
+
 </resources>

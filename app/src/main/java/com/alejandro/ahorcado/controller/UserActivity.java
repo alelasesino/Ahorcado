@@ -3,30 +3,26 @@ package com.alejandro.ahorcado.controller;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.alejandro.ahorcado.R;
 import com.alejandro.ahorcado.model.Player;
+import com.alejandro.ahorcado.utils.FileManager;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class UserActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ArrayList<Player> players;
     private EditText txtUser;
-    private Button btBack;
 
     private RecyclerView recyclerScore;
     private PlayerAdapter adapterScore;
@@ -36,17 +32,39 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
 
-        players = new ArrayList<>();
+        initializePlayers();
+        initializeToolbar();
+        initializeComponents();
+
+    }
+
+    private void initializePlayers(){
+
+        Thread thread = new Thread(() ->{
+
+            try {
+
+                players = FileManager.readHangGamePlayers(this);
+
+            } catch (Exception e) {
+                players = new ArrayList<>();
+            }
+
+        });
+
+        try {
+            thread.start();
+            thread.join();
+        } catch (InterruptedException ignored) {}
+
+        /*players = new ArrayList<>();
         players.add(new Player("Alejandro", 2));
         players.add(new Player("Angel", 5));
         players.add(new Player("Pedro", 2));
         players.add(new Player("Julian", 7));
-        players.add(new Player("Manuel", 10));
+        players.add(new Player("Manuel", 10));*/
 
         players.sort((player1, player2) -> player2.getPoints() - player1.getPoints());
-
-        initializeToolbar();
-        initializeComponents();
 
     }
 
@@ -66,7 +84,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
         txtUser = findViewById(R.id.txtUser);
         recyclerScore = findViewById(R.id.listScore);
-        btBack = findViewById(R.id.btBack);
+        Button btBack = findViewById(R.id.btBack);
 
         btBack.setOnClickListener(this);
 
@@ -142,6 +160,22 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
             return strName;
 
         return getString(R.string.default_player_name);
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        new Thread(() ->{
+
+            try {
+
+                FileManager.writeHangGamePlayer(this, players);
+
+            } catch (Exception ignored) {}
+
+        }).start();
 
     }
 

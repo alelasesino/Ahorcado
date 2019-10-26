@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="wods_game">
+        <item>Computer</item><item>Processor</item><item>Browser</item><item>Microphone</item>
+        <item>Keyboard</item><item>Headset</item><item>Android</item><item>Programmer</item>
+        <item>Mouse</item><item>Desktop</item><item>Apple</item><item>Deloitte</item>
+        <item>MousePad</item><item>Folder</item><item>Microsoft</item><item>Bin</item>
+        <item>Monitor</item><item>File</item><item>Intel</item><item>Internet</item>
+    </string-array>
+
+</resources>

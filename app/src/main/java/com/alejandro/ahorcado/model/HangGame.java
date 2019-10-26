@@ -1,18 +1,25 @@
 package com.alejandro.ahorcado.model;
 
-import com.alejandro.ahorcado.utils.DifficultyEnum;
+import android.content.Context;
+
+import com.alejandro.ahorcado.R;
 import com.alejandro.ahorcado.utils.Utils;
 
 import java.util.ArrayList;
 
+//String = "abcdefghijklmnñopqrstuvwxyz"
+//String={"", "", "", "", ""}; CADA POSICION DEL ARRAY ES UN CARACTER DE LA PALABRA
+//PARA CADA CARACTER ALMACENO UN CADENA CON TODAS LOS CARACTERES QUE YA SE INSERTARON
+//NO MOSTRAR LAS PALABRAS QUE YA ESTEN INSERTARDAS
 public class HangGame {
-    //String = "abcdefghijklmnñopqrstuvwxyz"
-    //String={"", "", "", "", ""}; CADA POSICION DEL ARRAY ES UN CARACTER DE LA PALABRA
-    //PARA CADA CARACTER ALMACENO UN CADENA CON TODAS LOS CARACTERES QUE YA SE INSERTARON
-    //NO MOSTRAR LAS PALABRAS QUE YA ESTEN INSERTARDAS
-    public static String[] words;
-    private final int EXTRA_POINTS = 5;
 
+    public static final int EASY_MODE = 15;
+    public static final int NORMAL_MODE = 10;
+    public static final int HARD_MODE = 5;
+
+    public static String[] words;
+
+    private static final int EXTRA_POINTS = 5;
     private Player player;
 
     private String[] charsPosition;
@@ -20,19 +27,12 @@ public class HangGame {
     private int lives, currentLives;
     private boolean comodin;
 
-    public HangGame(){
-
-        lives = DifficultyEnum.NORMAL.getLives();
-        currentLives = lives;
-
-    }
-
     /**
      * Inicializa para cada posicion de la palabra con todas las letras disponibles
      */
-    private void initCharsPosition(){
+    private void initCharsPosition(Context context){
 
-        String chars = "abcdefghijklmnñopqrstuvwxyz";
+        String chars = context.getString(R.string.chars);
 
         charsPosition = new String[word.length()];
 
@@ -102,11 +102,11 @@ public class HangGame {
         this.word = new StringBuilder(word);
     }
 
-    public void startGame(){
+    public void startGame(Context context){
 
         setHiddenWord(getRandomWord());
 
-        initCharsPosition();
+        initCharsPosition(context);
         initHiddenWord();
 
         resetGame();
@@ -179,7 +179,7 @@ public class HangGame {
 
     /**
      * Comprueba si la partida ha terminado ya sea por puntos o por vidas
-     * @return
+     * @return True si la partida ha terminado, false si no termino
      */
     public boolean endGame(){
 

@@ -50,9 +50,10 @@
 
         <Spinner
             android:id="@+id/positionSpinner"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="@android:color/transparent"/>
+            android:background="@android:color/transparent"
+            android:layout_weight="27"/>
 
     </LinearLayout>
 
@@ -72,9 +73,10 @@
 
         <Spinner
             android:id="@+id/charSpinner"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="@android:color/transparent"/>
+            android:background="@android:color/transparent"
+            android:layout_weight="27"/>
 
     </LinearLayout>
 

@@ -9,7 +9,6 @@ import java.util.Date;
 
 public class Player implements Serializable {
 
-    private int id;
     private String name;
     private int points;
     private Date date;
@@ -18,11 +17,11 @@ public class Player implements Serializable {
         name = context.getString(R.string.default_player_name);
     }
 
-    public Player(String name, int points) {
+    /*public Player(String name, int points) {
         this.name = name;
         this.points = points;
         this.date = new Date();
-    }
+    }*/
 
     public String getName() {
         return name;
@@ -46,14 +45,6 @@ public class Player implements Serializable {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
 }

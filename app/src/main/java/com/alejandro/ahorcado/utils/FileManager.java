@@ -74,12 +74,12 @@ public class FileManager {
 
     }
 
-    public static void deleteHangGamePlayer(Context context, Player player){}
-
-    public static void writeHangGamePlayer(Context context, Player player) throws IOException {
+    public static void writeHangGamePlayer(Context context, ArrayList<Player> players) throws IOException {
 
         ObjectOutputStream output = new ObjectOutputStream(context.openFileOutput(HANG_GAME_PLAYERS, Context.MODE_PRIVATE));
-        output.writeObject(player);
+
+        for(Player player : players)
+            output.writeObject(player);
 
         output.close();
 
@@ -90,14 +90,41 @@ public class FileManager {
         ObjectInputStream input = new ObjectInputStream(context.openFileInput(HANG_GAME_PLAYERS));
 
         ArrayList<Player> players = new ArrayList<>();
-        Player player;
 
-        while((player = (Player)input.readObject()) != null)
-            players.add(player);
+        try{
+
+            while (true)
+                players.add((Player) input.readObject());
+
+        }catch(EOFException ignored){}
 
         input.close();
 
         return players;
+
+    }
+
+    public static void appendHangGamePlayer(Context context, Player player) throws Exception {
+
+        ArrayList<Player> players = readHangGamePlayers(context);
+
+        boolean exist = false;
+
+        for(Player p : players)
+            if(p.getName().equalsIgnoreCase(player.getName())) { //SI EL JUGADOR EXISTE
+                exist = true;
+
+                if(p.getPoints() < player.getPoints()){ //SI LA NUEVA PUNTUACION ES MAYOR A LA ANTERIOR
+                    p.setPoints(player.getPoints());
+                    p.setDate(player.getDate());
+                }
+
+            }
+
+        if(!exist)
+            players.add(player);
+
+        writeHangGamePlayer(context, players);
 
     }
 

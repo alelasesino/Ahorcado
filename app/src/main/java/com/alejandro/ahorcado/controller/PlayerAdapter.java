@@ -10,17 +10,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alejandro.ahorcado.R;
 import com.alejandro.ahorcado.model.Player;
+import com.alejandro.ahorcado.utils.Utils;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ItemPlayer> {
 
     private ArrayList<Player> players;
     private OnItemClickListener listener;
 
-    public PlayerAdapter(ArrayList<Player> players){
+    PlayerAdapter(ArrayList<Player> players){
         this.players = players;
     }
 
@@ -47,24 +46,26 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ItemPlayer
         return players.size();
     }
 
-    public void deleteItem(int position){
+    void deleteItem(int position){
+
         players.remove(position);
         notifyItemRemoved(position);
-        //notifyItemRangeChanged(position, players.size());
+        notifyItemRangeChanged(position, players.size());
+
     }
 
     class ItemPlayer extends RecyclerView.ViewHolder {
 
         private TextView lblPoints, lblPlayerName, lblDate;
 
-        public ItemPlayer(View itemView) {
+        ItemPlayer(View itemView) {
             super(itemView);
 
             lblPoints = itemView.findViewById(R.id.lblPoints);
             lblPlayerName = itemView.findViewById(R.id.lblPlayerName);
             lblDate = itemView.findViewById(R.id.lblDate);
 
-            itemView.setOnClickListener((view) -> {
+            itemView.setOnClickListener((view) -> { //EVENTO CLICK DE LAS CARDS VIEW
 
                 int position = getAdapterPosition();
 
@@ -75,17 +76,17 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ItemPlayer
 
         }
 
-        public void bind(Player player){
+        void bind(Player player){
 
             lblPoints.setText(String.valueOf(player.getPoints()));
             lblPlayerName.setText(player.getName());
-            lblDate.setText(new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(player.getDate()));
+            lblDate.setText(Utils.dateToString(player.getDate()));
 
         }
 
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener){
+    void setOnItemClickListener(OnItemClickListener listener){
         this.listener = listener;
     }
 

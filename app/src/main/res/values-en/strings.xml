@@ -26,4 +26,6 @@
     <string name="vidas_static">N.º Lives:</string>
     <string name="winner_player">%s you got the word right, you got %d points</string>
     <string name="title_app_name">HANG GAME</string>
+    <string name="chars">abcdefghijklmnopqrstuvwxyz</string>
+
 </resources>

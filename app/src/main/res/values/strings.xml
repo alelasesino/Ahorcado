@@ -25,13 +25,6 @@
     <string name="default_player_name">Player 1</string>
     <string name="winner_player">%s has acertado la palabra, conseguistes %d puntos</string>
     <string name="loser_player">%s the word was %s, you got %d points</string>
-    
-    <string-array name="wods_game">
-        <item>Ordenador</item><item>Procesador</item><item>Navegador</item><item>Microfono</item>
-        <item>Teclado</item><item>Cascos</item><item>Android</item><item>Programador</item>
-        <item>Raton</item><item>Escritorio</item><item>Apple</item><item>Deloitte</item>
-        <item>Alfombrilla</item><item>Carpeta</item><item>Microsoft</item><item>Papelera</item>
-        <item>Monitor</item><item>Fichero</item><item>Intel</item><item>Internet</item>
-    </string-array>
+    <string name="chars">abcdefghijklmnñopqrstuvwxyz</string>
     
 </resources>

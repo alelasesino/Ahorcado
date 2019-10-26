@@ -14,8 +14,7 @@
         android:layout_height="wrap_content"
         android:text="@string/user_title"
         android:textSize="@dimen/normal_font"
-        android:gravity="center"
-        android:layout_marginVertical="15dp"/>
+        android:gravity="center"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -36,7 +35,7 @@
         android:layout_height="wrap_content"
         android:text="@string/user_subtitle"
         android:textSize="@dimen/small_font"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="15dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
