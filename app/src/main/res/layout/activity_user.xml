@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".controller.UserActivity"
-    android:padding="30dp"
+    android:padding="15dp"
     android:orientation="vertical"
     android:background="@color/bakgroundColor">
 
@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/user_title"
-        android:textSize="@dimen/normal_font"
+        android:textSize="@dimen/subtitle_font"
         android:gravity="center"/>
 
     <TextView
@@ -59,7 +59,7 @@
             android:textSize="@dimen/small_font"
             android:background="@drawable/start_button_selector"
             android:textColor="@color/bakgroundColor"
-            android:layout_marginTop="10dp"/>
+            android:layout_margin="10dp"/>
 
     </LinearLayout>
 

@@ -38,6 +38,10 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /**
+     * Lee las datos de los jugadores del fichero y ordena los jugadores
+     * por puntuacion de forma descendente
+     */
     private void initializePlayers(){
 
         Thread thread = new Thread(() ->{
@@ -57,17 +61,13 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
             thread.join();
         } catch (InterruptedException ignored) {}
 
-        /*players = new ArrayList<>();
-        players.add(new Player("Alejandro", 2));
-        players.add(new Player("Angel", 5));
-        players.add(new Player("Pedro", 2));
-        players.add(new Player("Julian", 7));
-        players.add(new Player("Manuel", 10));*/
-
         players.sort((player1, player2) -> player2.getPoints() - player1.getPoints());
 
     }
 
+    /**
+     * Establece el titulo y el icono a la toolbar de la activity
+     */
     private void initializeToolbar(){
 
         ActionBar toolbar = getSupportActionBar();
@@ -80,6 +80,9 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /**
+     * Inicializa los componentes del XML
+     */
     private void initializeComponents(){
 
         txtUser = findViewById(R.id.txtUser);
@@ -89,11 +92,14 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         btBack.setOnClickListener(this);
 
         initializeRecyclerView();
-
         receivedDataUser();
 
     }
 
+    /**
+     * Inicializa el recyclerView añadiendole un asistente tactil que permite controlar
+     * eventos tactiles de las cardviews
+     */
     private void initializeRecyclerView(){
 
         recyclerScore.setHasFixedSize(true);
@@ -124,15 +130,27 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /**
+     * Establece el nombre de la cardview cliqueada en el campo de texto del nombre del jugador
+     * @param player Jugador seleccionado
+     */
     private void onItemClick(Player player){
         txtUser.setText(player.getName());
     }
 
+    /**
+     * Evento click del boton de volver
+     * @param view Vista
+     */
     @Override
     public void onClick(View view) {
         closeActivity();
     }
 
+    /**
+     * Envia el nombre del jugador al MainActivity
+     * y finaliza esta activity
+     */
     private void closeActivity(){
 
         Intent resultIntent = new Intent();
@@ -143,6 +161,9 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /**
+     * Recibe el nombre del jugador de la MainActivity
+     */
     private void receivedDataUser(){
 
         Bundle data = getIntent().getExtras();
@@ -152,6 +173,11 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /**
+     * Devuelve el nombre del jugador del campo de texto, si no se introdujo ningun
+     * nombre devuelve el nombre por defecto
+     * @return Nombre del jugador
+     */
     private String getPlayerName(){
 
         String strName = txtUser.getText().toString();
@@ -163,6 +189,9 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /**
+     * Escribe los nombres de los jugadores en el fichero de jugadores
+     */
     @Override
     protected void onStop() {
         super.onStop();

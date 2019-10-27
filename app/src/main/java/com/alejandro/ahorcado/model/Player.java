@@ -7,6 +7,9 @@ import com.alejandro.ahorcado.R;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * Clase con todas las propiedades de un jugador
+ */
 public class Player implements Serializable {
 
     private String name;
@@ -16,12 +19,6 @@ public class Player implements Serializable {
     public Player(Context context){
         name = context.getString(R.string.default_player_name);
     }
-
-    /*public Player(String name, int points) {
-        this.name = name;
-        this.points = points;
-        this.date = new Date();
-    }*/
 
     public String getName() {
         return name;

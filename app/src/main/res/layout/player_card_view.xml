@@ -18,20 +18,32 @@
         android:layout_height="wrap_content"
         android:weightSum="100">
 
-        <TextView
-            android:id="@+id/lblPoints"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:text="15"
             android:layout_weight="12"
-            android:textSize="@dimen/small_font"
-            android:gravity="center"/>
+            android:layout_margin="10dp"
+            android:gravity="center">
 
+            <TextView
+                android:id="@+id/lblPoints"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:text="5"
+                android:textColor="@color/colorPrimary"
+                android:fontFamily="@font/supercell"
+                android:background="@drawable/background_points"
+                android:textSize="@dimen/extra_small_font"
+                android:gravity="center|center_vertical"/>
+
+        </LinearLayout>
+
+        <!--
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:src="@drawable/person_rounded"
-            android:layout_weight="10"/>
+            android:layout_weight="15"/>-->
 
         <TextView
             android:id="@+id/lblPlayerName"
@@ -40,7 +52,7 @@
             android:text="Alejandro"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
-            android:layout_weight="50"
+            android:layout_weight="57"
             android:gravity="center_vertical"
             android:textSize="@dimen/small_font"/>
 
@@ -49,9 +61,10 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:text="18/05/2019"
-            android:layout_weight="27"
+            android:layout_weight="28"
             android:textSize="@dimen/extra_extra_small_font"
-            android:gravity="center"/>
+            android:gravity="bottom|end"
+            android:paddingBottom="5dp"/>
 
     </LinearLayout>
 

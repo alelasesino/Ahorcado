@@ -90,6 +90,9 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ItemPlayer
         this.listener = listener;
     }
 
+    /**
+     * Interfaz utilizada para conectar el evento click del cardview con la UserActivity
+     */
     public interface OnItemClickListener{
         void onItemClick(Player player);
     }

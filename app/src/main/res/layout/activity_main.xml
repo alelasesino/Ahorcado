@@ -15,107 +15,117 @@
         android:layout_height="wrap_content"
         android:text="@string/title_app_name"
         android:textSize="@dimen/title_font"
-        android:textAlignment="center"/>
-
-    <TextView
-        android:id="@+id/lblPlaying"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/playing"
-        android:textSize="@dimen/normal_font"
-        android:layout_marginTop="-10dp"
-        android:paddingStart="25dp"
-        android:paddingEnd="0dp"/>
-
-    <TextView
-        android:id="@+id/lblHiddenWord"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/subtitle_font"
-        android:textAlignment="center"/>
+        android:textAlignment="center"
+        android:layout_marginTop="10dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="100">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:text="@string/posicion"
-            android:textSize="@dimen/normal_font"
-            android:textAlignment="textEnd"
-            android:layout_weight="40"/>
-
-        <Spinner
-            android:id="@+id/positionSpinner"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:layout_weight="27"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="100">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:text="@string/letra"
-            android:textSize="@dimen/normal_font"
-            android:textAlignment="textEnd"
-            android:layout_weight="40"/>
-
-        <Spinner
-            android:id="@+id/charSpinner"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:layout_weight="27"/>
-
-    </LinearLayout>
-
-
-    <Button
-        android:id="@+id/btPlay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/play"
-        android:textSize="@dimen/small_font"
-        android:background="@drawable/start_button_selector"
-        android:layout_marginVertical="10dp"
-        android:textColor="@color/bakgroundColor"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:orientation="vertical"
-        android:layout_marginVertical="5dp">
+        android:layout_weight="1"
+        android:gravity="center">
 
         <TextView
-            android:id="@+id/lblPoints"
-            android:layout_width="wrap_content"
+            android:id="@+id/lblPlaying"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/puntos"
+            android:text="@string/playing"
             android:textSize="@dimen/normal_font"
-            android:textAlignment="center"
+            android:layout_marginTop="-10dp"
             android:paddingStart="25dp"
-            android:paddingEnd="25dp"/>
+            android:paddingEnd="0dp"/>
 
         <TextView
-            android:id="@+id/lblLives"
-            android:layout_width="wrap_content"
+            android:id="@+id/lblHiddenWord"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/vidas"
-            android:textSize="@dimen/normal_font"
-            android:textAlignment="center"
-            android:paddingStart="25dp"
-            android:paddingEnd="25dp"/>
+            android:textSize="@dimen/subtitle_font"
+            android:textAlignment="center"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="100">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/posicion"
+                android:textSize="@dimen/normal_font"
+                android:textAlignment="textEnd"
+                android:layout_weight="40"/>
+
+            <Spinner
+                android:id="@+id/positionSpinner"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:layout_weight="27"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="100">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/letra"
+                android:textSize="@dimen/normal_font"
+                android:textAlignment="textEnd"
+                android:layout_weight="40"/>
+
+            <Spinner
+                android:id="@+id/charSpinner"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:layout_weight="27"/>
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/btPlay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/play"
+            android:textSize="@dimen/small_font"
+            android:background="@drawable/start_button_selector"
+            android:layout_marginVertical="10dp"
+            android:textColor="@color/bakgroundColor"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginVertical="5dp">
+
+            <TextView
+                android:id="@+id/lblPoints"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/puntos"
+                android:textSize="@dimen/normal_font"
+                android:textAlignment="center"
+                android:paddingStart="25dp"
+                android:paddingEnd="25dp"/>
+
+            <TextView
+                android:id="@+id/lblLives"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/vidas"
+                android:textSize="@dimen/normal_font"
+                android:textAlignment="center"
+                android:paddingStart="25dp"
+                android:paddingEnd="25dp"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 

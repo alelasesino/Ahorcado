@@ -7,10 +7,18 @@ import com.alejandro.ahorcado.utils.Utils;
 
 import java.util.ArrayList;
 
-//String = "abcdefghijklmnñopqrstuvwxyz"
-//String={"", "", "", "", ""}; CADA POSICION DEL ARRAY ES UN CARACTER DE LA PALABRA
-//PARA CADA CARACTER ALMACENO UN CADENA CON TODAS LOS CARACTERES QUE YA SE INSERTARON
-//NO MOSTRAR LAS PALABRAS QUE YA ESTEN INSERTARDAS
+
+/**
+ * @author Alejandro Perez Alvarez
+ * @version 2.0
+ * @since 27/10/2019
+ *
+ * Clase encargada de la logica del Ahorcado.
+ * En cada posicion de la palabra a acertar tiene una cadena con todos los
+ * caracteres que estan diponibles para esa posicion de la palabra Ej.
+ * Palabra: Ale
+ * charsPosition: ["abcd...", "abcd...", "abcd..."]
+ */
 public class HangGame {
 
     public static final int EASY_MODE = 15;
@@ -26,6 +34,10 @@ public class HangGame {
     private StringBuilder word, hiddenWord;
     private int lives, currentLives;
     private boolean comodin;
+
+    public HangGame(){
+        lives = NORMAL_MODE;
+    }
 
     /**
      * Inicializa para cada posicion de la palabra con todas las letras disponibles
@@ -53,6 +65,11 @@ public class HangGame {
 
     }
 
+    /**
+     * Inserta un caracter en la posicion indicada en la palabra oculta
+     * @param c Caracter a insertar
+     * @param finalPos Posicion del caracter a insertar
+     */
     public void insertChar(char c, int finalPos){
 
         c = Character.toLowerCase(c);
@@ -83,10 +100,22 @@ public class HangGame {
 
         } while(i<finalPos);
 
+        checkSuccess(existChar, initPos == finalPos);
+
+    }
+
+    /**
+     * Comprueba si el caracter introducido existe, si no existe disminuye las vidas,
+     * si existe incrementa los puntos
+     * @param existChar
+     * @param extraPoints
+     */
+    private void checkSuccess(boolean existChar, boolean extraPoints){
+
         if(!existChar)
             currentLives -= 1;
         else
-            increasePoints(initPos == finalPos);
+            increasePoints(extraPoints);
 
     }
 
@@ -102,6 +131,10 @@ public class HangGame {
         this.word = new StringBuilder(word);
     }
 
+    /**
+     * Empieza una partida estableciendo la palabra aleatoriamente
+     * @param context Contexto
+     */
     public void startGame(Context context){
 
         setHiddenWord(getRandomWord());
@@ -113,6 +146,9 @@ public class HangGame {
 
     }
 
+    /**
+     * Reinicia el juego, la puntuacion y las vidas
+     */
     private void resetGame(){
 
         player.setPoints(0);
@@ -120,6 +156,10 @@ public class HangGame {
 
     }
 
+    /**
+     * Devuelve una palabra aleatoria del array que contiene todas las palabras del juego
+     * @return Palabra aleatoria
+     */
     private String getRandomWord(){
         return words != null ? words[Utils.getRandomNumber(0, words.length)] : "";
     }

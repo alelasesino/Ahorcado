@@ -35,6 +35,9 @@ public class OptionsActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
+    /**
+     * Establece el titulo y el icono a la toolbar de la activity
+     */
     private void initializeToolbar(){
 
         ActionBar toolbar = getSupportActionBar();
@@ -47,6 +50,9 @@ public class OptionsActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
+    /**
+     * Inicializa los componentes XML
+     */
     private void initializeComponents(){
 
         groupDificultad = findViewById(R.id.groupDificultad);
@@ -89,6 +95,12 @@ public class OptionsActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
+    /**
+     * Cambia la seleccion del los radios buttons de la dificultad si las vidas pasadas por
+     * parametro coincide con las vidas dde alguna de las dificultades de los radio buttons
+     * en caso de no coincidan con ninguna dificultad, deselecciona todos los radio buttons
+     * @param lives Vidas de la dificultad
+     */
     private void changeRadioGroup(int lives){
 
         switch (lives){
@@ -112,6 +124,11 @@ public class OptionsActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
+    /**
+     * Envia el numero de vidas y el estado del comodin al MainActivity
+     * y finaliza esta activity
+     * @param view Vista
+     */
     @Override
     public void onClick(View view) {
 
@@ -124,6 +141,11 @@ public class OptionsActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
+    /**
+     * Devuelve el numero de vidas indicadas por el usuario ya sean a traves de los radio buttons
+     * o escrita en el campo de texto
+     * @return Numero de vidas
+     */
     private int getLevel(){
 
         switch (groupDificultad.getCheckedRadioButtonId()){
@@ -144,6 +166,10 @@ public class OptionsActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
+    /**
+     * Devuelve el numero de vidas personalizada escrita en el campo de texto
+     * @return Numero de vidas personalizadas
+     */
     private int getCustomNumLives(){
 
         String strLives = txtLives.getText().toString();
@@ -153,6 +179,9 @@ public class OptionsActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
+    /**
+     * Recibe el numero de vidas y el estado del comodin de la MainActivity
+     */
     private void receivedDataOptions(){
 
         Bundle data = getIntent().getExtras();

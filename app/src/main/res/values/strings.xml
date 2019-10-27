@@ -25,6 +25,6 @@
     <string name="default_player_name">Player 1</string>
     <string name="winner_player">%s has acertado la palabra, conseguistes %d puntos</string>
     <string name="loser_player">%s the word was %s, you got %d points</string>
-    <string name="chars">abcdefghijklmnñopqrstuvwxyz</string>
+    <string name="chars">abcdefghijklmnopqrstuvwxyz</string>
     
 </resources>

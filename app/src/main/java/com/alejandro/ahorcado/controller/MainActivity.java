@@ -70,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Establece el titulo y el icono a la toolbar de la activity
+     */
     private void initializeToolbar(){
 
         ActionBar toolbar = getSupportActionBar();
@@ -133,6 +136,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Initializa las opciones del juego leyendo el fichero de opciones
+     */
     private void initializeHangGame(){
 
         Thread thread = new Thread(()-> {
@@ -160,11 +166,18 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Lee el fichero de opciones
+     * @throws IOException Fichero no encontrado
+     */
     private void readOptionsFile() throws  IOException{
         if(hangGame == null)
             hangGame = FileManager.readHangGameOptions(this);
     }
 
+    /**
+     * Escribe en el fichero de opciones las opciones del juego
+     */
     private void writeOptionsFile(){
 
         if(hangGame == null)
@@ -220,6 +233,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Muestra el mensaje de victoria al jugador y guardas sus estadisticas en un archivo de juegadores
+     * cuando el jugador acerto la palabra
+     * @param player Jugador ganador
+     */
     private void winnerGame(Player player) {
 
         Toast.makeText(this, getString(R.string.winner_player, player.getName(), player.getPoints()), Toast.LENGTH_LONG).show();
@@ -231,12 +249,19 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Muestra el mensaje de derrota al jugador cuando el jugador perdio el total de vidas
+     * @param player
+     */
     private void loserGame(Player player) {
 
         Toast.makeText(this, getString(R.string.loser_player, player.getName(), hangGame.getWord(), player.getPoints()), Toast.LENGTH_LONG).show();
 
     }
 
+    /**
+     * Escribe las estadisticas del jugador ganador en el fichero de jugadores
+     */
     private void writePlayerScore(){
 
         Thread thread = new Thread(() ->{
@@ -374,8 +399,8 @@ public class MainActivity extends AppCompatActivity {
      */
     private void updateDataGUI(){
 
-        updateHangGameDataGUI();
         updatePositionSpinner();
+        updateHangGameDataGUI();
 
     }
 
@@ -392,6 +417,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Actualiza el textView con la palabra oculta permitiendo hacer click en el textView para seleccionar
+     * la posicion deseada
+     */
     private void updateHiddenTextView(){
 
         SpannableString ss = new SpannableString(hangGame.getHiddenWord()); //TODO OPTIMIZAR SPANNABLE
@@ -431,6 +460,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Obtiene el item del positionSpinner en la posicion pasada por parametro
+     * @param position Posicion del item del positionSpinner
+     * @return Valor entero del item del positionSpinner
+     */
     private int getPositionItem(int position){
 
         for(int i = 0; i<positionSpinner.getAdapter().getCount(); i++)
