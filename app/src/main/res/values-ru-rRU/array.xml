@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="wods_game">
+        <item>Компьютер</item><item>Процессор</item><item>Браузер</item><item>Микрофон</item>
+        <item>Клавиатура</item><item>Гарнитура</item><item>андроид</item><item>Программист</item>
+        <item>Мышь</item><item>Рабочий стол</item><item>Яблоко</item><item>Делойт</item>
+        <item>Мышонок</item><item>Папка</item><item>микромягкий</item><item>Контейнер</item>
+        <item>Монитор</item><item>Файл</item><item>Интел</item><item>интернет</item>
+    </string-array>
+
+</resources>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Повесить игру</string>
+    <string name="back">Назад</string>
+    <string name="chars">абвгдеёжзийклмнопрстуфхцчшщъыьэюяіѳѣѵѕѯѱѡѫѧѭѩ</string>
+    <string name="comodin">Разрешить использование спецсимволов * на позиции</string>
+    <string name="default_player_name">Игрок 1</string>
+    <string name="easy">Легко</string>
+    <string name="end">Завершить</string>
+    <string name="hard">Расширенный</string>
+    <string name="letra">Письмо:</string>
+    <string name="level">Трудность</string>
+    <string name="loser_player">%s слово было %s, вы получили %d баллы</string>
+    <string name="name">Имя</string>
+    <string name="normal">Средний</string>
+    <string name="options">Опции</string>
+    <string name="options_title">ВАРИАНТЫ ГАМЕ</string>
+    <string name="play">Играй!</string>
+    <string name="player">Игрок</string>
+    <string name="playing">Играть %s</string>
+    <string name="posicion">Позиция:</string>
+    <string name="puntos">Очки: %d</string>
+    <string name="start">Начать</string>
+    <string name="title_app_name">Повесить игру</string>
+    <string name="user_subtitle">Последние игроки забили</string>
+    <string name="user_title">ПОЛЬЗОВАТЕЛЬ РЕГИСТЕР</string>
+    <string name="vidas">Жизнь: %d</string>
+    <string name="vidas_static">Жизнь:</string>
+    <string name="winner_player">%s Вы правильно поняли слово, набрали %d баллов.</string>
+</resources>
