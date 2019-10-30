@@ -45,6 +45,9 @@ import javax.crypto.Cipher;
 
 public class MainActivity extends AppCompatActivity {
 
+    /**
+     * Codigo que identifica la activity result
+     */
     private static final int OPTIONS_ACTIVITY = 1, USER_ACTIVITY = 2;
 
     private HangGame hangGame;
@@ -251,7 +254,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Muestra el mensaje de derrota al jugador cuando el jugador perdio el total de vidas
-     * @param player
+     * @param player Jugador que perdedor
      */
     private void loserGame(Player player) {
 

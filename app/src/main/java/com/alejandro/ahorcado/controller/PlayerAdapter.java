@@ -46,6 +46,11 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ItemPlayer
         return players.size();
     }
 
+    /**
+     * Borra el item de la lista del adaptador y notifica a la vista
+     * del cambio para refrescar la vista
+     * @param position Posicion del item en la lista a borrar
+     */
     void deleteItem(int position){
 
         players.remove(position);
@@ -76,6 +81,10 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ItemPlayer
 
         }
 
+        /**
+         * Enlaza los datos del jugador con los componentes de la vista
+         * @param player Jugador a enlazar
+         */
         void bind(Player player){
 
             lblPoints.setText(String.valueOf(player.getPoints()));

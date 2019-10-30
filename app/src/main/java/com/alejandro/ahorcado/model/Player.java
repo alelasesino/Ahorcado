@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Clase con todas las propiedades de un jugador
+ * Modelo de objecto de un jugador
  */
 public class Player implements Serializable {
 
