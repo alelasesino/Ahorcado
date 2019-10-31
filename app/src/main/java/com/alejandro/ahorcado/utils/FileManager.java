@@ -19,7 +19,7 @@ public class FileManager {
     private static final String HANG_GAME_WORDS_FILE = "hang_game_words.txt";
     private static final String HANG_GAME_PLAYERS = "hang_game_players.txt";
 
-    public static void writeHangGameOptions(Context context, HangGame hangGame) throws IOException {
+    /*public static void writeHangGameOptions(Context context, HangGame hangGame) throws IOException {
 
         DataOutputStream dataOutput = getDataOutputStream(context, HANG_GAME_FILE);
 
@@ -28,9 +28,9 @@ public class FileManager {
 
         dataOutput.close();
 
-    }
+    }*/
 
-    public static HangGame readHangGameOptions(Context context) throws IOException {
+    /*public static HangGame readHangGameOptions(Context context) throws IOException {
 
         HangGame hangGame = new HangGame();
 
@@ -43,7 +43,7 @@ public class FileManager {
 
         return hangGame;
 
-    }
+    }*/
 
     public static void writeHangGameWords(Context context, String... words) throws IOException {
 

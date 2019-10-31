@@ -7,7 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
      * Codigo que identifica la activity result
      */
     private static final int OPTIONS_ACTIVITY = 1, USER_ACTIVITY = 2;
+    private static final String HANG_GAME_PREFERENCE = "hang_game_options";
 
     private HangGame hangGame;
 
@@ -144,7 +147,15 @@ public class MainActivity extends AppCompatActivity {
      */
     private void initializeHangGame(){
 
-        Thread thread = new Thread(()-> {
+        if(hangGame == null)
+            hangGame = new HangGame();
+
+        SharedPreferences pref = getSharedPreferences(HANG_GAME_PREFERENCE, Context.MODE_PRIVATE);
+        hangGame.setComodin(pref.getBoolean("comodin", false));
+        hangGame.setLives(pref.getInt("lives", 10));
+        hangGame.setPlayer(new Player(this));
+
+        /*Thread thread = new Thread(()-> {
 
             try{
 
@@ -156,16 +167,16 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
-            initHangGameWords(); //ESTABLECE LAS PALABRAS DISPONIBLES EN EL JUEGO
+
 
         });
 
         try {
             thread.start();
             thread.join();
-        }catch (InterruptedException ignored){}
+        }catch (InterruptedException ignored){}*/
 
-        hangGame.setPlayer(new Player(this));
+        initHangGameWords(); //ESTABLECE LAS PALABRAS DISPONIBLES EN EL JUEGO
 
     }
 
@@ -173,15 +184,15 @@ public class MainActivity extends AppCompatActivity {
      * Lee el fichero de opciones
      * @throws IOException Fichero no encontrado
      */
-    private void readOptionsFile() throws  IOException{
+    /*private void readOptionsFile() throws  IOException{
         if(hangGame == null)
             hangGame = FileManager.readHangGameOptions(this);
-    }
+    }*/
 
     /**
      * Escribe en el fichero de opciones las opciones del juego
      */
-    private void writeOptionsFile(){
+    /*private void writeOptionsFile(){
 
         if(hangGame == null)
             hangGame = new HangGame();
@@ -196,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
 
         }).start();
 
-    }
+    }*/
 
     /**
      * Inserta el caracter en el juego y comprueba si acabo la partida
@@ -564,7 +575,12 @@ public class MainActivity extends AppCompatActivity {
             hangGame.setLives(data.getInt("LEVEL"));
             hangGame.setComodin(data.getBoolean("COMODIN"));
 
-            writeOptionsFile(); //GUARDA LAS OPCIONES EN LE FICHERO
+            //writeOptionsFile(); //GUARDA LAS OPCIONES EN LE FICHERO
+            SharedPreferences prefs = getSharedPreferences(HANG_GAME_PREFERENCE,Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString("email", "modificado@email.com");
+            editor.putString("nombre", "Prueba");
+            editor.apply();
 
         }
 
