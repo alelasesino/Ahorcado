@@ -30,19 +30,21 @@ public class HangGame {
     private static final int EXTRA_POINTS = 5;
     private Player player;
 
+    private Context context;
     private String[] charsPosition;
     private StringBuilder word, hiddenWord;
     private int lives, currentLives;
     private boolean comodin;
 
-    public HangGame(){
+    public HangGame(Context context){
+        this.context = context;
         lives = NORMAL_MODE;
     }
 
     /**
      * Inicializa para cada posicion de la palabra con todas las letras disponibles
      */
-    private void initCharsPosition(Context context){
+    private void initCharsPosition(){
 
         String chars = context.getString(R.string.chars);
 
@@ -107,8 +109,8 @@ public class HangGame {
     /**
      * Comprueba si el caracter introducido existe, si no existe disminuye las vidas,
      * si existe incrementa los puntos
-     * @param existChar
-     * @param extraPoints
+     * @param existChar Existe el caracter introducido en la palabra oculta
+     * @param extraPoints Añadir puntuacion extra al acierto
      */
     private void checkSuccess(boolean existChar, boolean extraPoints){
 
@@ -133,13 +135,12 @@ public class HangGame {
 
     /**
      * Empieza una partida estableciendo la palabra aleatoriamente
-     * @param context Contexto
      */
-    public void startGame(Context context){
+    public void startGame(){
 
         setHiddenWord(getRandomWord());
 
-        initCharsPosition(context);
+        initCharsPosition();
         initHiddenWord();
 
         resetGame();

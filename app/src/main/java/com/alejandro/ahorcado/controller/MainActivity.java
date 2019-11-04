@@ -4,25 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.StyleSpan;
-import android.text.style.UnderlineSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -35,15 +28,11 @@ import com.alejandro.ahorcado.R;
 import com.alejandro.ahorcado.model.HangGame;
 import com.alejandro.ahorcado.model.Player;
 import com.alejandro.ahorcado.utils.FileManager;
-import com.alejandro.ahorcado.utils.Utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.Locale;
-
-import javax.crypto.Cipher;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -110,9 +99,9 @@ public class MainActivity extends AppCompatActivity {
         btPlayer = findViewById(R.id.btPlayer);
         btOptions = findViewById(R.id.btOptions);
 
-        btPlay.setOnClickListener(this::onClickPlay);
-        btStart.setOnClickListener(this::onClickStart);
-        btEnd.setOnClickListener(this::onClickEnd);
+        btPlay.setOnClickListener(v -> onClickPlay());
+        btStart.setOnClickListener(v -> onClickStart());
+        btEnd.setOnClickListener(v -> onClickEnd());
         btPlayer.setOnClickListener(this::onClickPlayer);
         btOptions.setOnClickListener(this::onClickOptions);
 
@@ -148,72 +137,29 @@ public class MainActivity extends AppCompatActivity {
     private void initializeHangGame(){
 
         if(hangGame == null)
-            hangGame = new HangGame();
+            hangGame = new HangGame(this);
+
+        recoverPreferencesOptions();
+        initHangGameWords();
+
+    }
+
+    /**
+     * Recupera las opciones del juego de las preferencias compartidas de la aplicacion
+     */
+    private void recoverPreferencesOptions(){
 
         SharedPreferences pref = getSharedPreferences(HANG_GAME_PREFERENCE, Context.MODE_PRIVATE);
         hangGame.setComodin(pref.getBoolean("comodin", false));
         hangGame.setLives(pref.getInt("lives", 10));
         hangGame.setPlayer(new Player(this));
 
-        /*Thread thread = new Thread(()-> {
-
-            try{
-
-                readOptionsFile(); //LEE EL ARCHIVO CON LAS OPCIONES
-
-            }catch (IOException e){
-
-                writeOptionsFile(); //CREA EL ARCHIVO DE LAS OPCIONES
-
-            }
-
-
-
-        });
-
-        try {
-            thread.start();
-            thread.join();
-        }catch (InterruptedException ignored){}*/
-
-        initHangGameWords(); //ESTABLECE LAS PALABRAS DISPONIBLES EN EL JUEGO
-
     }
 
     /**
-     * Lee el fichero de opciones
-     * @throws IOException Fichero no encontrado
-     */
-    /*private void readOptionsFile() throws  IOException{
-        if(hangGame == null)
-            hangGame = FileManager.readHangGameOptions(this);
-    }*/
-
-    /**
-     * Escribe en el fichero de opciones las opciones del juego
-     */
-    /*private void writeOptionsFile(){
-
-        if(hangGame == null)
-            hangGame = new HangGame();
-
-        new Thread(() -> {
-
-            try{
-
-                FileManager.writeHangGameOptions(this, hangGame);
-
-            }catch (IOException ignored){}
-
-        }).start();
-
-    }*/
-
-    /**
      * Inserta el caracter en el juego y comprueba si acabo la partida
-     * @param v Vista
      */
-    private void onClickPlay(View v){
+    private void onClickPlay(){
 
         hangGame.insertChar(charSpinner.getSelectedItem().toString().charAt(0), getPositionSelected());
 
@@ -297,11 +243,10 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Inicia la palabra al juego y actualiza la interfaz
-     * @param v Vista
      */
-    private void onClickStart(View v){
+    private void onClickStart(){
 
-        hangGame.startGame(this);
+        hangGame.startGame();
 
         waitStartGame = false;
 
@@ -359,9 +304,8 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Manda a cambiar el estado de aplicacion a esperar juego
-     * @param v Vista
      */
-    private void onClickEnd(View v){
+    private void onClickEnd(){
 
         finishGame();
 
@@ -574,15 +518,22 @@ public class MainActivity extends AppCompatActivity {
 
             hangGame.setLives(data.getInt("LEVEL"));
             hangGame.setComodin(data.getBoolean("COMODIN"));
-
-            //writeOptionsFile(); //GUARDA LAS OPCIONES EN LE FICHERO
-            SharedPreferences prefs = getSharedPreferences(HANG_GAME_PREFERENCE,Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putString("email", "modificado@email.com");
-            editor.putString("nombre", "Prueba");
-            editor.apply();
+            savePreferencesOptions();
 
         }
+
+    }
+
+    /**
+     * Guarda las opciones del juego en las preferencias compartidas de la aplicacion
+     */
+    private void savePreferencesOptions(){
+
+        SharedPreferences prefs = getSharedPreferences(HANG_GAME_PREFERENCE,Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("comodin", hangGame.hasComodin());
+        editor.putInt("lives", hangGame.getLives());
+        editor.apply();
 
     }
 
