@@ -6,6 +6,8 @@ import com.alejandro.ahorcado.R;
 import com.alejandro.ahorcado.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 
 
 /**
@@ -78,7 +80,7 @@ public class HangGame {
 
         int initPos = finalPos;
 
-        if(finalPos == -1){
+        if(finalPos == -1){ //SI SON TODAS LAS POSICIONES '*'
             initPos = 0;
             finalPos = word.length();
         }
@@ -87,12 +89,12 @@ public class HangGame {
         boolean existChar = false;
 
         do{
-
+            //ELIMINO EL CARACTER INTRODUCIDO DE TODOS LOS CARACTERES DIPONIBLES Ej. Introducido 'c' remplazo "abcdefg.." a "abdefg.."
             charsPosition[i] = charsPosition[i].replace(String.valueOf(c), "");
 
             if(Character.toLowerCase(word.charAt(i)) == c) {
 
-                charsPosition[i] = "";
+                charsPosition[i] = ""; //ELIMINO TODOS LOS CARACTERES DIPONIBLES
                 hiddenWord.setCharAt(i, word.charAt(i));
                 existChar = true;
 
@@ -162,7 +164,14 @@ public class HangGame {
      * @return Palabra aleatoria
      */
     private String getRandomWord(){
-        return words != null ? words[Utils.getRandomNumber(0, words.length)] : "";
+
+        if(words != null){
+            int length = lives >= words.length ? words.length : lives;
+            return words[Utils.getRandomNumber(0, length)];
+        }
+
+        return "";
+
     }
 
     /**

@@ -6,12 +6,12 @@
     <string name="back">Volver</string>
     <string name="easy">Fácil</string>
     <string name="end">Finalizar</string>
-    <string name="hard">Avanzado</string>
+    <string name="hard">Dificil</string>
     <string name="letra">Letra:</string>
     <string name="level">Dificultad</string>
     <string name="loser_player">%s la palabra era %s, conseguistes %d puntos</string>
     <string name="name">Nombre</string>
-    <string name="normal">Medio</string>
+    <string name="normal">Normal</string>
     <string name="options">Opciones</string>
     <string name="options_title">OPCIONES DE JUEGO</string>
     <string name="play">¡Jugar!</string>

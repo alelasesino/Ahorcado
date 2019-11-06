@@ -81,23 +81,31 @@ public class FileManager {
 
         ArrayList<Player> players = readHangGamePlayers(context);
 
-        boolean exist = false;
+        Player foundPlayer = findPlayer(players, player);
 
-        for(Player p : players)
-            if(p.getName().equalsIgnoreCase(player.getName())) { //SI EL JUGADOR EXISTE
-                exist = true;
+        if(foundPlayer != null){
 
-                if(p.getPoints() < player.getPoints()){ //SI LA NUEVA PUNTUACION ES MAYOR A LA ANTERIOR
-                    p.setPoints(player.getPoints());
-                    p.setDate(player.getDate());
-                }
-
+            if(foundPlayer.getPoints() < player.getPoints()){ //SI LA NUEVA PUNTUACION ES MAYOR A LA ANTERIOR
+                foundPlayer.setPoints(player.getPoints());
+                foundPlayer.setDate(player.getDate());
             }
 
-        if(!exist)
+        } else
             players.add(player);
 
         writeHangGamePlayer(context, players);
+
+    }
+
+    private static Player findPlayer(ArrayList<Player> players, Player player) {
+
+        Player foundPlayer = null;
+
+        for(Player p : players)
+            if(p.getName().equalsIgnoreCase(player.getName()))
+                foundPlayer = p;
+
+        return foundPlayer;
 
     }
 

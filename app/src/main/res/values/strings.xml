@@ -11,8 +11,8 @@
     <string name="end">Finalize</string>
     <string name="comodin">Allow wildcard * in position</string>
     <string name="easy">Easy</string>
-    <string name="normal">Medium</string>
-    <string name="hard">Advanced</string>
+    <string name="normal">Normal</string>
+    <string name="hard">Hard</string>
     <string name="level">Difficulty</string>
     <string name="options_title">GAME OPTIONS</string>
     <string name="back">Back</string>

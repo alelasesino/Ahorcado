@@ -16,6 +16,7 @@ import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -288,6 +289,9 @@ public class MainActivity extends AppCompatActivity {
     private void readWordsFile() throws  IOException{
         if(HangGame.words == null)
             HangGame.words = FileManager.readHangGameWords(this);
+
+        Arrays.sort(HangGame.words, (s1, s2) -> s2.length()-s1.length());
+
     }
 
     /**

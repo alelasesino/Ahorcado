@@ -6,12 +6,12 @@
     <string name="default_player_name">Player 1</string>
     <string name="easy">Easy</string>
     <string name="end">Finalize</string>
-    <string name="hard">Advanced</string>
+    <string name="hard">Hard</string>
     <string name="letra">Letter:</string>
     <string name="level">Difficulty</string>
     <string name="loser_player">%s the word was %s, you got %d points</string>
     <string name="name">Name</string>
-    <string name="normal">Medium</string>
+    <string name="normal">Normal</string>
     <string name="options">Options</string>
     <string name="options_title">GAME OPTIONS</string>
     <string name="play">Play!</string>

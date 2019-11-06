@@ -7,7 +7,7 @@ import java.util.Locale;
 public class Utils {
 
     public static int getRandomNumber(int min, int max){
-        return (int)(Math.random() * ( max - min )) + min;
+        return (int)(Math.random() * (max - min)) + min;
     }
 
     public static String dateToString(Date date){
