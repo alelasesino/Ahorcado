@@ -35,6 +35,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
+/**
+ * @author Alejandro Perez Alvarez
+ * @version 2.0
+ * @since 07/11/2019
+ *
+ * Clase encarga de controlar la interfaz y de interactuar
+ * con la clase HangGame encargada de la logica del juego
+ */
 public class MainActivity extends AppCompatActivity {
 
     /**
@@ -287,6 +295,7 @@ public class MainActivity extends AppCompatActivity {
      * @throws IOException Archivo no existe
      */
     private void readWordsFile() throws  IOException{
+
         if(HangGame.words == null)
             HangGame.words = FileManager.readHangGameWords(this);
 

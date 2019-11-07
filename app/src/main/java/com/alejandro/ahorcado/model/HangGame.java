@@ -71,6 +71,7 @@ public class HangGame {
 
     /**
      * Inserta un caracter en la posicion indicada en la palabra oculta
+     * y actualiza la puntuacion en caso de acierto
      * @param c Caracter a insertar
      * @param finalPos Posicion del caracter a insertar
      */
