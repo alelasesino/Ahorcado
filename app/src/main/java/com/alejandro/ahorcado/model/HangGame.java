@@ -6,8 +6,6 @@ import com.alejandro.ahorcado.R;
 import com.alejandro.ahorcado.utils.Utils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 
 
 /**
@@ -73,39 +71,90 @@ public class HangGame {
      * Inserta un caracter en la posicion indicada en la palabra oculta
      * y actualiza la puntuacion en caso de acierto
      * @param c Caracter a insertar
-     * @param finalPos Posicion del caracter a insertar
+     * @param position Posicion del caracter a insertar
      */
-    public void insertChar(char c, int finalPos){
+    public void insertChar(char c, int position){
 
         c = Character.toLowerCase(c);
 
-        int initPos = finalPos;
+        int[] initFinalPositions = getInitFinalPosition(position);
 
-        if(finalPos == -1){ //SI SON TODAS LAS POSICIONES '*'
-            initPos = 0;
-            finalPos = word.length();
-        }
+        int initPosition = initFinalPositions[0];
+        int finalPosition = initFinalPositions[1];
+
+        Integer[] positionsCharExist = getPositionsCharExist(c, initPosition, finalPosition);
+
+        for(Integer integer : positionsCharExist)
+            insertChar(integer);
+
+        checkSuccess(positionsCharExist.length > 0, !isComodin(position));
+
+    }
+
+    /**
+     * @param position Posicion a comprobar
+     * @return true si la posicion seleccionada es el asterisco, false si no es el asterisco
+     */
+    private boolean isComodin(int position){
+        return position == -1;
+    }
+
+    /**
+     * Metodo que recibe la posicion seleccionada por el usuario, comprueba si selecciono
+     * el asterisco o no y devuelve la posicion inicial y final que se tiene que buscar el caracter
+     * en la palabra oculta. Si es el asterisco devuelve la longitud de la palabra de lo contrario
+     * devuelve la posicion seleccionada por el usuario
+     * @param position Posicion seleccionada por el usuario
+     * @return Array de enteros, siendo la posicion 0, la posicion inicial
+     * y la posicion 1, la posicion final
+     */
+    private int[] getInitFinalPosition(int position){
+
+        if(isComodin(position))
+            return new int[]{0, word.length()};
+        else
+            return new int[]{position, position};
+
+    }
+
+    /**
+     * Metodo que busca el caracter recibido en la palabra oculta y devuelve la posicion de los caracteres
+     * que coincidan con el caracter recibido por parametro
+     * @param c Caracter a buscar
+     * @param initPos Posicion inicial a buscar
+     * @param finalPos Posicion final a buscar
+     * @return Lista de enteros con las posiciones de los caracteres que existen en al palabra oculta
+     */
+    private Integer[] getPositionsCharExist(char c,  int initPos, int finalPos) {
 
         int i = initPos;
-        boolean existChar = false;
+
+        ArrayList<Integer> charsPositionFound = new ArrayList<>();
 
         do{
             //ELIMINO EL CARACTER INTRODUCIDO DE TODOS LOS CARACTERES DIPONIBLES Ej. Introducido 'c' remplazo "abcdefg.." a "abdefg.."
             charsPosition[i] = charsPosition[i].replace(String.valueOf(c), "");
 
-            if(Character.toLowerCase(word.charAt(i)) == c) {
-
-                charsPosition[i] = ""; //ELIMINO TODOS LOS CARACTERES DIPONIBLES
-                hiddenWord.setCharAt(i, word.charAt(i));
-                existChar = true;
-
-            }
+            if(Character.toLowerCase(word.charAt(i)) == c)
+                charsPositionFound.add(i);
 
             i++;
 
         } while(i<finalPos);
 
-        checkSuccess(existChar, initPos == finalPos);
+        return charsPositionFound.toArray(new Integer[0]);
+
+    }
+
+    /**
+     * Inserta el caracter en la palabra oculta en posicion deseada y
+     * elimina todos los caracteres disponibles de esa posicion
+     * @param position Posicion del caracter a insertar
+     */
+    private void insertChar(int position) {
+
+        charsPosition[position] = ""; //ELIMINO TODOS LOS CARACTERES DISPONIBLES
+        hiddenWord.setCharAt(position, word.charAt(position));
 
     }
 
