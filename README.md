@@ -1,9 +1,3 @@
-<style>
-  img{
-    width: 50%;
-  }
-</style>
-
 <h1>Ahorcado Android</h1>
 <h2>Aplicación android con la funcionalidad de un del ahorcado</h2>
 
@@ -24,8 +18,7 @@
 <p>Aplicación realizada por <b>Alejandro Pérez Álvarez</b></p>
 
 <div style="display: grid; grid-template-columns: 1fr 1fr 1fr;">
-  <img src="https://raw.githubusercontent.com/alelasesino/Ahorcado/master/screen_shots/GameActivity.png" alt=""/>
-  <img src="https://raw.githubusercontent.com/alelasesino/Ahorcado/master/screen_shots/OptionsActivity.png" alt=""/>
-  <img src="https://raw.githubusercontent.com/alelasesino/Ahorcado/master/screen_shots/ScoreActivity.png" alt=""/>
+  <img style="width: 33%;" src="https://raw.githubusercontent.com/alelasesino/Ahorcado/master/screen_shots/GameActivity.png" alt=""/>
+  <img style="width: 33%;" src="https://raw.githubusercontent.com/alelasesino/Ahorcado/master/screen_shots/OptionsActivity.png" alt=""/>
+  <img style="width: 33%;" src="https://raw.githubusercontent.com/alelasesino/Ahorcado/master/screen_shots/ScoreActivity.png" alt=""/>
 </div>
-
