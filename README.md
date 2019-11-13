@@ -16,4 +16,7 @@
 </ul>
 <p>El proyecto está realizado íntegramente con el IDE <b>Android Studio</b>.</p>
 <p>Aplicación realizada por <b>Alejandro Pérez Álvarez</b></p>
+<img src="https://raw.githubusercontent.com/alelasesino/Ahorcado/master/screen_shots/GameActivity.png"/>
+<img src="https://raw.githubusercontent.com/alelasesino/Ahorcado/master/screen_shots/OptionsActivity.png"/>
+<img src="https://raw.githubusercontent.com/alelasesino/Ahorcado/master/screen_shots/ScoreActivity.png"/>
 
