@@ -275,7 +275,7 @@ public class MainActivity extends AppCompatActivity {
 
             writeWordsFile();
 
-            if(HangGame.words == null) readWordsFile(); //LEE EL ARCHIVO DE PALABRAS
+            readWordsFile(); //LEE EL ARCHIVO DE PALABRAS
 
         }catch (IOException e){
 
@@ -298,7 +298,7 @@ public class MainActivity extends AppCompatActivity {
         if(HangGame.words == null)
             HangGame.words = FileManager.readHangGameWords(this);
 
-        Arrays.sort(HangGame.words, (s1, s2) -> s2.length()-s1.length());
+        //Arrays.sort(HangGame.words, (s1, s2) -> s2.length()-s1.length());
 
     }
 

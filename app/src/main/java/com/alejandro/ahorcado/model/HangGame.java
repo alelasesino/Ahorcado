@@ -215,10 +215,8 @@ public class HangGame {
      */
     private String getRandomWord(){
 
-        if(words != null){
-            int length = lives >= words.length ? words.length : lives;
-            return words[Utils.getRandomNumber(0, length)];
-        }
+        if(words != null)
+            return words[Utils.getRandomNumber(0, words.length)];
 
         return "";
 
