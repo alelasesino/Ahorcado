@@ -25,7 +25,7 @@ public class HangGame {
     public static final int NORMAL_MODE = 10;
     public static final int HARD_MODE = 5;
 
-    public static String[] words;
+    public static String[] words; //PALABRAS PARA ADIVINAR
 
     private static final int EXTRA_POINTS = 5;
     private Player player;
@@ -33,7 +33,7 @@ public class HangGame {
     private Context context;
     private String[] charsPosition;
     private StringBuilder word, hiddenWord;
-    private int lives, currentLives;
+    private int lives, currentLives; //VIDAS DE LA DIFICULTDAD, VIDAS ACTUALES DE LA PARTIDA
     private boolean comodin;
 
     public HangGame(Context context){
