@@ -1,5 +1,5 @@
 <h1>Ahorcado Android</h1>
-<h2>Aplicación android con la funcionalidad de un del ahorcado</h2>
+<h2>Aplicación android con la funcionalidad del juego ahorcado</h2>
 
 <p>Un pequeño proyecto basado en la funcionalidad del juego ahorcado con algunas modificaciones.</p>
 <p>Algunas caracteristicas de la aplicación: </p>
