@@ -16,7 +16,6 @@ import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -394,40 +393,66 @@ public class MainActivity extends AppCompatActivity {
      */
     private void updateHiddenTextView(){
 
-        SpannableString ss = new SpannableString(hangGame.getHiddenWord()); //TODO OPTIMIZAR SPANNABLE
+        SpannableString ss = new SpannableString(hangGame.getHiddenWord());
 
-        for(int i = 0; i<ss.length(); i+=2) {
+        setClickableHiddenWord(ss);
 
-            final int pos = i;
-
-            ClickableSpan clickableSpan = new ClickableSpan() {
-                @Override
-                public void onClick(@NonNull View view) {
-                    positionSpinner.setSelection(getPositionItem((pos/2)+1));
-                }
-
-                @Override
-                public void updateDrawState(@NonNull TextPaint ds) {
-                    ds.setUnderlineText(false);
-                }
-            };
-
-            if(ss.charAt(i) == '_')
-                ss.setSpan(clickableSpan, i, i+1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        }
-
-        if(positionSpinner.getSelectedItem() != null){
-            int pos = getPositionSelected();
-            pos = pos*2;
-
-            if(pos > -1)
-                ss.setSpan(new ForegroundColorSpan(Color.RED), pos, pos+1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
+        if(positionSpinner.getSelectedItem() != null)
+            setHighlightCharacter(ss, getPositionSelected()*2); //MULTIPLICO POR 2 POR LOS ESPACIOS ENTRE '_'
 
         lblHiddenWord.setHighlightColor(Color.TRANSPARENT);
         lblHiddenWord.setMovementMethod(LinkMovementMethod.getInstance());
         lblHiddenWord.setText(ss);
+
+    }
+
+    /**
+     * Hace clickable los caracteres ocultos ('_')
+     * @param ss Cadena para hacer clickable
+     */
+    private void setClickableHiddenWord(SpannableString ss){
+
+        for(int i = 0; i<ss.length(); i+=2)
+            if(ss.charAt(i) == '_'){
+                WordClickableSpan clickableSpan = new WordClickableSpan(i);
+                ss.setSpan(clickableSpan, i, i+1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+
+    }
+
+    /**
+     * Subraya de color rojo el caracter oculto ('_') en la posicion deseada
+     * @param ss Cadena clickable
+     * @param position Posicion del caracter
+     */
+    private void setHighlightCharacter(SpannableString ss, int position){
+
+        if(position > -1)//COMPRUEBO QUE LA POSICION NO ES EL ASTERISCO
+            ss.setSpan(new ForegroundColorSpan(Color.RED), position, position+1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+    }
+
+    /**
+     * Clase encargada de seleccionar del position spinner la posicion del caracter
+     * que fue clickado
+     */
+    private class WordClickableSpan extends ClickableSpan{
+
+        private int position;
+
+        private WordClickableSpan(int position){
+            this.position = position;
+        }
+
+        @Override
+        public void onClick(@NonNull View view) {
+            positionSpinner.setSelection(getPositionItem((position/2)+1));
+        }
+
+        @Override
+        public void updateDrawState(@NonNull TextPaint ds) {
+            ds.setUnderlineText(false);
+        }
 
     }
 
