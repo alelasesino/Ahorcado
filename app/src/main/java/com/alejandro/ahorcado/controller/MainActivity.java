@@ -307,11 +307,22 @@ public class MainActivity extends AppCompatActivity {
      * en los recursos de cadenas
      */
     private void writeWordsFile(){
-        try{
 
-            FileManager.writeHangGameWords(this, getResources().getStringArray(R.array.wods_game));
+        Thread thread = new Thread(() ->{
 
-        }catch (IOException ignored){}
+            try{
+
+                FileManager.writeHangGameWords(this, getResources().getStringArray(R.array.wods_game));
+
+            }catch (IOException ignored){}
+
+        });
+
+        try {
+            thread.start();
+            thread.join();
+        } catch (InterruptedException ignored) {}
+
     }
 
     /**
