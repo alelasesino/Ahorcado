@@ -14,7 +14,7 @@ import com.alejandro.ahorcado.utils.Utils;
 
 import java.util.ArrayList;
 
-public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ItemPlayer> {
+public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerViewHolder> {
 
     private ArrayList<Player> players;
     private OnItemClickListener listener;
@@ -25,19 +25,19 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ItemPlayer
 
     @NonNull
     @Override
-    public ItemPlayer onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public PlayerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         int itemLayoutId = R.layout.player_card_view;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         View view = inflater.inflate(itemLayoutId, parent, false);
 
-        return new ItemPlayer(view);
+        return new PlayerViewHolder(view);
 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ItemPlayer holder, int position) {
+    public void onBindViewHolder(@NonNull PlayerViewHolder holder, int position) {
         holder.bind(players.get(position));
     }
 
@@ -59,11 +59,11 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ItemPlayer
 
     }
 
-    class ItemPlayer extends RecyclerView.ViewHolder {
+    class PlayerViewHolder extends RecyclerView.ViewHolder {
 
         private TextView lblPoints, lblPlayerName, lblDate;
 
-        ItemPlayer(View itemView) {
+        PlayerViewHolder(View itemView) {
             super(itemView);
 
             lblPoints = itemView.findViewById(R.id.lblPoints);
