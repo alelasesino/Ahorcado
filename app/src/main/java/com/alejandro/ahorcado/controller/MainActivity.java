@@ -295,8 +295,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void readWordsFile() throws  IOException{
 
-        if(HangGame.words == null)
-            HangGame.words = FileManager.readHangGameWords(this);
+        HangGame.words = FileManager.readHangGameWords(this);
 
         //Arrays.sort(HangGame.words, (s1, s2) -> s2.length()-s1.length());
 
