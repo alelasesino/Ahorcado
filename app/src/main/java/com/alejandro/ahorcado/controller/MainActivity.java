@@ -568,8 +568,8 @@ public class MainActivity extends AppCompatActivity {
 
         if(data !=null) {
 
-            hangGame.setLives(data.getInt("LEVEL"));
-            hangGame.setComodin(data.getBoolean("COMODIN"));
+            hangGame.setLives(data.getInt(ARG_LEVEL));
+            hangGame.setComodin(data.getBoolean(ARG_COMODIN));
             savePreferencesOptions();
 
         }
