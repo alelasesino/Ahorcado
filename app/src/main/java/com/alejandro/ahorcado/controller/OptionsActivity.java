@@ -133,8 +133,8 @@ public class OptionsActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View view) {
 
         Intent resultIntent = new Intent();
-        resultIntent.putExtra("LEVEL", getLevel());
-        resultIntent.putExtra("COMODIN", checkboxComodin.isChecked());
+        resultIntent.putExtra(MainActivity.ARG_LEVEL, getLevel());
+        resultIntent.putExtra(MainActivity.ARG_COMODIN, checkboxComodin.isChecked());
 
         setResult(RESULT_OK, resultIntent);
         finish();

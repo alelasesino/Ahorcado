@@ -1,7 +1,9 @@
 package com.alejandro.ahorcado.controller;
 
+import android.animation.Animator;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -39,6 +41,31 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
     @Override
     public void onBindViewHolder(@NonNull PlayerViewHolder holder, int position) {
         holder.bind(players.get(position));
+    }
+
+    @Override
+    public void onViewAttachedToWindow(@NonNull PlayerViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+
+        animateCircleReveal(holder.itemView);
+
+    }
+
+    /**
+     * Muestra la vista realizando la animacion circular reveal
+     * @param view Vista para animar
+     */
+    private void animateCircleReveal(View view){
+
+        int centerX = view.getWidth()/2;
+        int centerY = view.getHeight()/2;
+        int startRadius = 0;
+        int endRadius = Math.max(view.getWidth(), view.getHeight());
+
+        Animator animator = ViewAnimationUtils.createCircularReveal(view, centerX, centerY, startRadius, endRadius);
+        view.setVisibility(View.VISIBLE);
+        animator.start();
+
     }
 
     @Override

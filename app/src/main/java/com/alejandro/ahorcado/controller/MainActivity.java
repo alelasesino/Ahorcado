@@ -44,6 +44,10 @@ import java.util.Date;
  */
 public class MainActivity extends AppCompatActivity {
 
+    public static final String ARG_PLAYER_NAME = "PLAYER_NAME";
+    public static final String ARG_LEVEL = "LEVEL";
+    public static final String ARG_COMODIN = "COMODIN";
+
     /**
      * Codigo que identifica la activity result
      */
@@ -340,7 +344,7 @@ public class MainActivity extends AppCompatActivity {
     private void onClickPlayer(View v){
 
         Intent intent = new Intent(this, UserActivity.class);
-        intent.putExtra("PLAYER_NAME", hangGame.getPlayer().getName());
+        intent.putExtra(ARG_PLAYER_NAME, hangGame.getPlayer().getName());
         startActivityForResult(intent, USER_ACTIVITY);
 
     }
@@ -352,8 +356,8 @@ public class MainActivity extends AppCompatActivity {
     private void onClickOptions(View v){
 
         Intent intent = new Intent(this, OptionsActivity.class);
-        intent.putExtra("LEVEL", hangGame.getLives());
-        intent.putExtra("COMODIN", hangGame.hasComodin());
+        intent.putExtra(ARG_LEVEL, hangGame.getLives());
+        intent.putExtra(ARG_COMODIN, hangGame.hasComodin());
         startActivityForResult(intent, OPTIONS_ACTIVITY);
 
     }
@@ -579,8 +583,8 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences(HANG_GAME_PREFERENCE,Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean("comodin", hangGame.hasComodin());
-        editor.putInt("lives", hangGame.getLives());
+        editor.putBoolean(ARG_COMODIN, hangGame.hasComodin());
+        editor.putInt(ARG_LEVEL, hangGame.getLives());
         editor.apply();
 
     }

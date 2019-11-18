@@ -154,7 +154,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     private void closeActivity(){
 
         Intent resultIntent = new Intent();
-        resultIntent.putExtra("PLAYER_NAME", getPlayerName());
+        resultIntent.putExtra(MainActivity.ARG_PLAYER_NAME, getPlayerName());
 
         setResult(RESULT_OK, resultIntent);
         finish();
