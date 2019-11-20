@@ -598,7 +598,7 @@ public class MainActivity extends AppCompatActivity {
         Bundle data = intent.getExtras();
 
         if(data !=null)
-            hangGame.getPlayer().setName(data.getString("PLAYER_NAME"));
+            hangGame.getPlayer().setName(data.getString(ARG_PLAYER_NAME));
 
     }
 
