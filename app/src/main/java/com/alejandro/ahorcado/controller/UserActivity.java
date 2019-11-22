@@ -169,7 +169,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         Bundle data = getIntent().getExtras();
 
         if(data != null)
-            txtUser.setText(data.getString("PLAYER_NAME"));
+            txtUser.setText(data.getString(MainActivity.ARG_PLAYER_NAME));
 
     }
 

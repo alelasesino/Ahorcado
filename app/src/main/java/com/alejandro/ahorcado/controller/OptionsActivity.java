@@ -188,8 +188,8 @@ public class OptionsActivity extends AppCompatActivity implements View.OnClickLi
 
         if(data != null){
 
-            receivedLives = data.getInt("LEVEL");
-            checkboxComodin.setChecked(data.getBoolean("COMODIN"));
+            receivedLives = data.getInt(MainActivity.ARG_LEVEL);
+            checkboxComodin.setChecked(data.getBoolean(MainActivity.ARG_COMODIN));
 
         }
 

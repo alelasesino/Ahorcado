@@ -162,8 +162,8 @@ public class MainActivity extends AppCompatActivity {
     private void recoverPreferencesOptions(){
 
         SharedPreferences pref = getSharedPreferences(HANG_GAME_PREFERENCE, Context.MODE_PRIVATE);
-        hangGame.setComodin(pref.getBoolean("comodin", false));
-        hangGame.setLives(pref.getInt("lives", 10));
+        hangGame.setComodin(pref.getBoolean(ARG_COMODIN, false));
+        hangGame.setLives(pref.getInt(ARG_LEVEL, 10));
         hangGame.setPlayer(new Player(this));
 
     }
